@@ -1,0 +1,31 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Rise"
+run/main_scene="res://main/main.tscn"
+config/features=PackedStringArray("4.7")
+
+[autoload]
+
+SteamService="*res://autoloads/steam_service.gd"
+LobbyService="*res://autoloads/lobby_service.gd"
+LobbySearch="*res://autoloads/lobby_search.gd"
+LobbyChat="*res://autoloads/lobby_chat.gd"
+MatchService="*uid://3gxv0p873tvy"
+SettingsService="*uid://b2wjdrhpbi66v"
+NetTransport="*uid://diwkclc4fpf64"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"

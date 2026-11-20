@@ -1,0 +1,196 @@
+[gd_scene format=3 uid="uid://bbtp122xtgrgl"]
+
+[ext_resource type="Script" uid="uid://cadxhj40sbw2i" path="res://ui/screens/main_menu/main_menu.gd" id="1_script"]
+
+[sub_resource type="Gradient" id="Gradient_sky"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0.2, 0.13, 0.3, 1, 0.09, 0.07, 0.14, 1, 0.03, 0.03, 0.05, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sky"]
+gradient = SubResource("Gradient_sky")
+fill = 1
+fill_from = Vector2(0.5, 0.35)
+fill_to = Vector2(1.1, 1.1)
+
+[sub_resource type="Gradient" id="Gradient_ember"]
+offsets = PackedFloat32Array(0, 0.2, 1)
+colors = PackedColorArray(1, 0.8, 0.35, 0, 1, 0.75, 0.3, 0.9, 1, 0.45, 0.15, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_status"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.05, 0.04, 0.08, 0.8)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.42, 0.4, 0.52, 0.6)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="MainMenu" type="Control" unique_id=719287257]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Sky" type="TextureRect" parent="." unique_id=1821128159]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_sky")
+expand_mode = 1
+
+[node name="Embers" type="CPUParticles2D" parent="." unique_id=658199161]
+position = Vector2(640, 740)
+amount = 70
+lifetime = 8.0
+preprocess = 8.0
+emission_shape = 3
+emission_rect_extents = Vector2(700, 10)
+direction = Vector2(0, -1)
+spread = 25.0
+gravity = Vector2(0, -6)
+initial_velocity_min = 25.0
+initial_velocity_max = 65.0
+scale_amount_min = 1.5
+scale_amount_max = 4.0
+color_ramp = SubResource("Gradient_ember")
+
+[node name="Center" type="CenterContainer" parent="." unique_id=1023741581]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center" unique_id=407641669]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="IconRow" type="HBoxContainer" parent="Center/VBox" unique_id=1344975007]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="Center/VBox" unique_id=2113100204]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.35, 1)
+theme_override_colors/font_shadow_color = Color(1, 0.6, 0.2, 0.35)
+theme_override_colors/font_outline_color = Color(0.1, 0.06, 0.02, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 6
+theme_override_constants/outline_size = 16
+theme_override_constants/shadow_outline_size = 24
+theme_override_font_sizes/font_size = 120
+text = "RISE"
+horizontal_alignment = 1
+
+[node name="TaglineLabel" type="Label" parent="Center/VBox" unique_id=823836945]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.72, 0.85, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = "Huit héros. Trois monstres. Un seul sommet."
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="Center/VBox" unique_id=2102032233]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+
+[node name="Buttons" type="VBoxContainer" parent="Center/VBox" unique_id=1200661367]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 12
+
+[node name="PlayButton" type="Button" parent="Center/VBox/Buttons" unique_id=1699487993]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+focus_mode = 0
+text = "Jouer en ligne"
+
+[node name="TrainingButton" type="Button" parent="Center/VBox/Buttons" unique_id=1163813111]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+focus_mode = 0
+text = "Entraînement"
+
+[node name="DecksButton" type="Button" parent="Center/VBox/Buttons" unique_id=986059418]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+focus_mode = 0
+text = "Mes decks"
+
+[node name="CodexButton" type="Button" parent="Center/VBox/Buttons" unique_id=2018589552]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+focus_mode = 0
+text = "Codex"
+
+[node name="OptionsButton" type="Button" parent="Center/VBox/Buttons" unique_id=604796755]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+focus_mode = 0
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="Center/VBox/Buttons" unique_id=1804618834]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+focus_mode = 0
+text = "Quitter"
+
+[node name="SteamStatusLabel" type="Label" parent="." unique_id=1107525612]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -54.0
+offset_right = 420.0
+offset_bottom = -20.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_status")
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="VersionLabel" type="Label" parent="." unique_id=261717908]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -220.0
+offset_top = -46.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.5, 0.48, 0.6, 1)
+theme_override_font_sizes/font_size = 13
+text = "Prototype v0.1"
+horizontal_alignment = 2

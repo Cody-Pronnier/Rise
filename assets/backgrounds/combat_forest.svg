@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#1a1238"/><stop offset="0.45" stop-color="#3b2a5e"/><stop offset="0.7" stop-color="#6b4a6e"/><stop offset="1" stop-color="#2a1d33"/></linearGradient>
+<radialGradient id="moonglow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff2c4" stop-opacity="0.55"/><stop offset="1" stop-color="#fff2c4" stop-opacity="0"/></radialGradient>
+<linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3d4a2c"/><stop offset="1" stop-color="#1c2416"/></linearGradient>
+<linearGradient id="path" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6e5a46"/><stop offset="1" stop-color="#3e3226"/></linearGradient>
+<linearGradient id="mist" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c8b8e8" stop-opacity="0"/><stop offset="0.5" stop-color="#c8b8e8" stop-opacity="0.22"/><stop offset="1" stop-color="#c8b8e8" stop-opacity="0"/></linearGradient>
+<radialGradient id="torch" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#ffb347" stop-opacity="0.55"/><stop offset="1" stop-color="#ff7a20" stop-opacity="0"/></radialGradient>
+<radialGradient id="vignette" cx="0.5" cy="0.5" r="0.75"><stop offset="0.6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.55"/></radialGradient>
+</defs>
+<rect width="1280" height="720" fill="url(#sky)"/>
+<!-- étoiles -->
+<g fill="#fff6dd" opacity="0.8">
+<circle cx="90" cy="60" r="1.6"/><circle cx="210" cy="130" r="1.2"/><circle cx="340" cy="40" r="1.8"/><circle cx="460" cy="110" r="1.1"/>
+<circle cx="560" cy="50" r="1.5"/><circle cx="720" cy="90" r="1.2"/><circle cx="820" cy="30" r="1.7"/><circle cx="1180" cy="70" r="1.4"/>
+<circle cx="1240" cy="150" r="1.1"/><circle cx="150" cy="200" r="1.0"/><circle cx="640" cy="160" r="1.0"/><circle cx="1100" cy="190" r="1.2"/>
+</g>
+<!-- lune -->
+<circle cx="980" cy="140" r="170" fill="url(#moonglow)"/>
+<circle cx="980" cy="140" r="62" fill="#fff0c2"/>
+<circle cx="958" cy="124" r="12" fill="#ead9a4"/><circle cx="1004" cy="158" r="9" fill="#ead9a4"/><circle cx="992" cy="112" r="6" fill="#ead9a4"/>
+<g transform="translate(0,-70)">
+<!-- montagnes lointaines -->
+<path d="M0 430 L120 300 L210 360 L330 250 L450 350 L560 290 L680 380 L800 280 L930 360 L1050 270 L1170 340 L1280 300 L1280 470 L0 470 Z" fill="#2c2148"/>
+<path d="M330 250 L360 280 L345 278 L330 262 L312 276 Z M800 280 L828 306 L812 304 L800 292 L786 302 Z M1050 270 L1076 296 L1062 294 L1050 282 L1038 292 Z" fill="#8f86b8" opacity="0.6"/>
+<!-- château sur la colline -->
+<path d="M140 470 Q240 380 360 470 Z" fill="#231a3a"/>
+<g fill="#1a1330">
+<rect x="210" y="350" width="80" height="80"/>
+<rect x="196" y="320" width="26" height="110"/><rect x="278" y="310" width="26" height="120"/>
+<rect x="236" y="300" width="28" height="60"/>
+<path d="M196 320 L209 296 L222 320 Z M278 310 L291 284 L304 310 Z M236 300 L250 270 L264 300 Z"/>
+</g>
+<g fill="#ffcf6b"><rect x="204" y="350" width="6" height="10"/><rect x="286" y="340" width="6" height="10"/><rect x="246" y="320" width="6" height="10"/><rect x="236" y="380" width="8" height="12"/></g>
+<!-- brume -->
+<rect x="0" y="380" width="1280" height="120" fill="url(#mist)"/>
+<!-- forêt de sapins -->
+<g fill="#16211f">
+<path d="M0 520 L0 430 L30 380 L60 430 L50 430 L80 400 L110 450 L130 410 L160 460 L190 420 L220 470 L250 430 L280 480 L0 520 Z"/>
+<path d="M1280 520 L1280 420 L1250 372 L1222 424 L1232 424 L1200 392 L1170 444 L1150 404 L1120 454 L1090 414 L1060 466 L1030 428 L1000 480 L1280 520 Z"/>
+</g>
+</g>
+<!-- sol -->
+<path d="M0 400 Q640 370 1280 400 L1280 720 L0 720 Z" fill="url(#ground)"/>
+<!-- chemin de pierre -->
+<path d="M540 400 Q640 392 740 400 L980 720 L300 720 Z" fill="url(#path)" opacity="0.9"/>
+<g fill="#58483a" stroke="#2a221a" stroke-width="2" opacity="0.8">
+<ellipse cx="620" cy="430" rx="20" ry="6"/><ellipse cx="672" cy="452" rx="20" ry="6"/><ellipse cx="600" cy="480" rx="24" ry="8"/><ellipse cx="690" cy="500" rx="22" ry="7"/><ellipse cx="560" cy="540" rx="30" ry="10"/>
+<ellipse cx="660" cy="560" rx="34" ry="11"/><ellipse cx="760" cy="545" rx="28" ry="9"/><ellipse cx="500" cy="600" rx="38" ry="12"/>
+<ellipse cx="640" cy="620" rx="42" ry="13"/><ellipse cx="800" cy="610" rx="36" ry="12"/><ellipse cx="430" cy="680" rx="44" ry="14"/>
+<ellipse cx="620" cy="690" rx="48" ry="14"/><ellipse cx="840" cy="680" rx="44" ry="14"/>
+</g>
+<!-- herbes -->
+<g stroke="#5f7a3a" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.8">
+<path d="M80 560 l-6 -18 M86 560 l2 -20 M92 560 l8 -16"/><path d="M260 600 l-6 -18 M266 600 l2 -20 M272 600 l8 -16"/>
+<path d="M1030 580 l-6 -18 M1036 580 l2 -20 M1042 580 l8 -16"/><path d="M1180 640 l-6 -18 M1186 640 l2 -20 M1192 640 l8 -16"/>
+<path d="M180 680 l-6 -18 M186 680 l2 -20 M192 680 l8 -16"/>
+</g>
+<!-- torches -->
+<g transform="translate(0,-60)">
+<circle cx="150" cy="430" r="80" fill="url(#torch)"/><circle cx="1130" cy="430" r="80" fill="url(#torch)"/>
+<rect x="145" y="430" width="10" height="70" fill="#3a2614" stroke="#1b1420" stroke-width="3"/>
+<rect x="1125" y="430" width="10" height="70" fill="#3a2614" stroke="#1b1420" stroke-width="3"/>
+<path d="M150 400 Q136 420 146 432 L154 432 Q164 420 150 400 Z" fill="#ffb347" stroke="#1b1420" stroke-width="2.5"/>
+<path d="M1130 400 Q1116 420 1126 432 L1134 432 Q1144 420 1130 400 Z" fill="#ffb347" stroke="#1b1420" stroke-width="2.5"/>
+<path d="M150 412 Q144 424 150 430 Q156 424 150 412 Z" fill="#fff2a8"/>
+<path d="M1130 412 Q1124 424 1130 430 Q1136 424 1130 412 Z" fill="#fff2a8"/>
+</g>
+<rect width="1280" height="720" fill="url(#vignette)"/>
+</svg>

@@ -1,0 +1,237 @@
+[gd_scene load_steps=18 format=3]
+
+[ext_resource type="Script" path="res://ui/screens/combat/combat_screen.gd" id="1_script"]
+[ext_resource type="Script" path="res://ui/components/combat/field_tab_bar.gd" id="2_tabs"]
+[ext_resource type="PackedScene" path="res://ui/components/combat/arena_view.tscn" id="3_arena"]
+[ext_resource type="Script" path="res://ui/components/combat/hand_view.gd" id="4_hand"]
+[ext_resource type="PackedScene" path="res://ui/components/combat/round_result_panel.tscn" id="5_results"]
+[ext_resource type="Script" path="res://ui/components/combat/targeting_arrow.gd" id="6_arrow"]
+[ext_resource type="PackedScene" path="res://ui/components/trade/social_panel.tscn" id="7_social"]
+[ext_resource type="PackedScene" path="res://ui/components/trade/trade_offer_popup.tscn" id="8_popup"]
+[ext_resource type="PackedScene" path="res://ui/components/trade/trade_dialog.tscn" id="9_dialog"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/combat_forest.svg" id="10_background"]
+[ext_resource type="Script" path="res://ui/components/trade/trade_inbox.gd" id="11_inbox"]
+[ext_resource type="PackedScene" path="res://ui/components/combat/live_standings_panel.tscn" id="12_standings"]
+[ext_resource type="Script" path="res://ui/components/combat/class_ability_panel.gd" id="13_ability"]
+[ext_resource type="Script" path="res://ui/components/combat/history_panel.gd" id="14_history"]
+[ext_resource type="Script" path="res://ui/components/combat/game_menu.gd" id="15_menu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_topbar"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.05, 0.04, 0.08, 0.85)
+border_width_bottom = 2
+border_color = Color(1, 0.78, 0.3, 0.35)
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_toast"]
+content_margin_left = 16.0
+content_margin_top = 6.0
+content_margin_right = 16.0
+content_margin_bottom = 6.0
+bg_color = Color(0.05, 0.04, 0.08, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.78, 0.3, 0.5)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="CombatScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Sky" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("10_background")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="ArenaView" parent="." instance=ExtResource("3_arena")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 84.0
+offset_bottom = -235.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 76.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_topbar")
+
+[node name="HBox" type="HBoxContainer" parent="TopBar"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="FieldTabBar" type="HBoxContainer" parent="TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+script = ExtResource("2_tabs")
+
+[node name="MessageLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -292.0
+offset_right = 320.0
+offset_bottom = -258.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_toast")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="CardLockLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -260.0
+offset_top = -60.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 2
+
+[node name="HandView" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -250.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("4_hand")
+
+[node name="ClassAbilityPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -230.0
+offset_top = 112.0
+offset_right = 230.0
+offset_bottom = 156.0
+grow_horizontal = 2
+script = ExtResource("13_ability")
+
+[node name="HistoryPanel" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -120.0
+offset_right = 30.0
+offset_bottom = 220.0
+grow_vertical = 2
+script = ExtResource("14_history")
+
+[node name="SocialPanel" parent="." instance=ExtResource("7_social")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="LiveStandingsPanel" parent="." instance=ExtResource("12_standings")]
+unique_name_in_owner = true
+layout_mode = 0
+
+[node name="TradeInbox" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -88.0
+offset_top = 150.0
+offset_right = -16.0
+offset_bottom = 560.0
+grow_horizontal = 0
+theme_override_constants/separation = 14
+script = ExtResource("11_inbox")
+
+[node name="TradeOfferPopup" parent="." instance=ExtResource("8_popup")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="TradeDialog" parent="." instance=ExtResource("9_dialog")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="TargetingArrow" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_arrow")
+
+[node name="RoundResultPanel" parent="." instance=ExtResource("5_results")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="MessageTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="GameMenu" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("15_menu")

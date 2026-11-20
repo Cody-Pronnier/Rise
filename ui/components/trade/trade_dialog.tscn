@@ -1,0 +1,144 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://ui/components/trade/trade_dialog.gd" id="1_script"]
+
+[node name="TradeDialog" type="PanelContainer"]
+z_index = 50
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -390.0
+offset_top = -270.0
+offset_right = 390.0
+offset_bottom = 270.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Columns" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 28
+
+[node name="GiveColumn" type="VBoxContainer" parent="VBox/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="GiveTitle" type="Label" parent="VBox/Columns/GiveColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.7, 0.4, 1)
+theme_override_font_sizes/font_size = 19
+text = "Tu donnes"
+
+[node name="GiveScroll" type="ScrollContainer" parent="VBox/Columns/GiveColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="GiveCards" type="VBoxContainer" parent="VBox/Columns/GiveColumn/GiveScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GivePointsRow" type="HBoxContainer" parent="VBox/Columns/GiveColumn"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="GivePointsLabel" type="Label" parent="VBox/Columns/GiveColumn/GivePointsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Points"
+
+[node name="GivePoints" type="SpinBox" parent="VBox/Columns/GiveColumn/GivePointsRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+
+[node name="AskColumn" type="VBoxContainer" parent="VBox/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="AskTitle" type="Label" parent="VBox/Columns/AskColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.7, 0.4, 1)
+theme_override_font_sizes/font_size = 19
+text = "Tu demandes"
+
+[node name="AskScroll" type="ScrollContainer" parent="VBox/Columns/AskColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="AskCards" type="VBoxContainer" parent="VBox/Columns/AskColumn/AskScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AskPointsRow" type="HBoxContainer" parent="VBox/Columns/AskColumn"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="AskPointsLabel" type="Label" parent="VBox/Columns/AskColumn/AskPointsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Points"
+
+[node name="AskPoints" type="SpinBox" parent="VBox/Columns/AskColumn/AskPointsRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+
+[node name="AllianceCheck" type="CheckBox" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(0.5, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 17
+text = "Proposer une alliance pour la manche"
+
+[node name="ErrorLabel" type="Label" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.5, 0.45, 1)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="CancelButton" type="Button" parent="VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 46)
+layout_mode = 2
+focus_mode = 0
+text = "Annuler"
+
+[node name="Spacer" type="Control" parent="VBox/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SendButton" type="Button" parent="VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 46)
+layout_mode = 2
+focus_mode = 0
+text = "Envoyer l'offre"

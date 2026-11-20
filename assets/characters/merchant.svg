@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<defs><radialGradient id="skin" cx="45%" cy="40%" r="70%"><stop offset="0" stop-color="#ffe0c2"/><stop offset="1" stop-color="#e0a77e"/></radialGradient><linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#97a2b8"/></linearGradient><linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe9a0"/><stop offset="1" stop-color="#d08f1f"/></linearGradient><linearGradient id="wood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a87444"/><stop offset="1" stop-color="#5e3b1f"/></linearGradient><linearGradient id="vest" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2a640"/><stop offset="1" stop-color="#a85e14"/></linearGradient>
+<linearGradient id="shirt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6e4"/><stop offset="1" stop-color="#e2d2b0"/></linearGradient>
+<linearGradient id="hat" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7a3a8a"/><stop offset="1" stop-color="#3e1a4a"/></linearGradient>
+<radialGradient id="bag" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#c79a62"/><stop offset="1" stop-color="#7a5228"/></radialGradient></defs>
+<g stroke="#1b1420" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+
+<path d="M100 214 L98 234 L118 234 L120 214 Z" fill="#4a3628"/>
+<path d="M136 214 L138 234 L158 234 L156 214 Z" fill="#4a3628"/>
+<path d="M92 238 Q94 228 108 229 L124 230 Q126 242 114 243 L98 243 Q90 243 92 238 Z" fill="#6b3f22"/>
+<path d="M132 238 Q134 228 148 229 L166 230 Q170 242 156 243 L138 243 Q130 243 132 238 Z" fill="#6b3f22"/>
+<path d="M86 214 Q80 150 104 124 L152 124 Q178 150 172 214 Z" fill="url(#shirt)"/>
+<path d="M86 214 Q80 150 104 124 L118 124 L114 214 Z" fill="url(#vest)"/>
+<path d="M172 214 Q178 150 152 124 L138 124 L144 214 Z" fill="url(#vest)"/>
+<path d="M88 196 L170 196 L172 212 L86 212 Z" fill="#6b3f22"/>
+<rect x="122" y="196" width="16" height="16" rx="3" fill="url(#gold)" stroke-width="3.5"/>
+<circle cx="129" cy="150" r="3.5" fill="url(#gold)" stroke-width="2"/><circle cx="129" cy="170" r="3.5" fill="url(#gold)" stroke-width="2"/>
+<path d="M104 130 Q82 150 84 182" fill="none" stroke-width="22"/><path d="M104 130 Q82 150 84 182" fill="none" stroke="#f0e2c2" stroke-width="14"/>
+<circle cx="84" cy="186" r="10" fill="url(#skin)"/>
+<path d="M154 130 Q176 140 184 156" fill="none" stroke-width="22"/><path d="M154 130 Q176 140 184 156" fill="none" stroke="#f0e2c2" stroke-width="14"/>
+<path d="M176 160 Q170 196 196 204 Q226 206 224 176 Q222 160 206 156 Z" fill="url(#bag)"/>
+<path d="M188 158 Q200 150 212 158" fill="none" stroke-width="4"/>
+<circle cx="196" cy="140" r="9" fill="url(#gold)" stroke-width="3.5"/><circle cx="214" cy="146" r="7" fill="url(#gold)" stroke-width="3"/>
+<path d="M194 136 L198 136 M196 134 L196 146" stroke="#a86a10" stroke-width="2.5"/>
+<circle cx="186" cy="160" r="10" fill="url(#skin)"/>
+<ellipse cx="126" cy="84" rx="30" ry="30" fill="url(#skin)"/>
+<ellipse cx="130" cy="84" rx="4.2" ry="5.5" fill="#1b1420" stroke-width="0"/>
+<ellipse cx="146" cy="83" rx="4.2" ry="5.5" fill="#1b1420" stroke-width="0"/>
+<circle cx="131.5" cy="82" r="1.4" fill="#fff" stroke-width="0"/>
+<circle cx="147.5" cy="81" r="1.4" fill="#fff" stroke-width="0"/>
+<ellipse cx="120" cy="94" rx="6" ry="3.5" fill="#f28b82" opacity="0.55" stroke-width="0"/>
+<path d="M130 98 Q138 104 146 97" fill="none" stroke-width="3.5"/>
+<path d="M120 102 Q130 96 140 102 Q150 96 156 104 Q148 110 138 106 Q130 110 120 102 Z" fill="#6b3f22" stroke-width="3"/>
+<ellipse cx="128" cy="58" rx="46" ry="10" fill="url(#hat)"/>
+<path d="M100 58 Q100 26 130 24 Q160 26 158 58 Z" fill="url(#hat)"/>
+<path d="M100 50 L158 50 L158 58 L100 58 Z" fill="url(#gold)" stroke-width="3"/>
+<path d="M150 40 Q176 14 196 18 Q178 26 164 46 Z" fill="#ff7a5a" stroke-width="3.5"/>
+
+</g>
+<ellipse cx="114" cy="74" rx="10" ry="5" fill="#fff" opacity="0.3"/>
+</svg>

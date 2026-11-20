@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+<defs>
+<linearGradient id="paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf0d2"/><stop offset="1" stop-color="#e2c992"/></linearGradient>
+<linearGradient id="wood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b57a45"/><stop offset="1" stop-color="#6b4222"/></linearGradient>
+<radialGradient id="clock" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#ffe9a0"/><stop offset="1" stop-color="#d08f1f"/></radialGradient>
+</defs>
+<g stroke="#1b1420" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<rect x="12" y="10" width="34" height="42" rx="3" fill="url(#paper)"/>
+<rect x="8" y="6" width="42" height="8" rx="4" fill="url(#wood)"/>
+<rect x="8" y="48" width="42" height="8" rx="4" fill="url(#wood)"/>
+<path d="M18 22 L36 22 M18 29 L32 29 M18 36 L28 36" stroke="#8a5a2a" stroke-width="2.5"/>
+<circle cx="46" cy="44" r="12" fill="url(#clock)"/>
+<path d="M46 37 L46 44 L51 47" fill="none" stroke-width="2.5"/>
+</g>
+</svg>

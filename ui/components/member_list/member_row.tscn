@@ -1,0 +1,97 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://ui/components/member_list/member_row.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_host"]
+content_margin_left = 10.0
+content_margin_top = 3.0
+content_margin_right = 10.0
+content_margin_bottom = 3.0
+bg_color = Color(0.55, 0.38, 0.1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.78, 0.3, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="MemberRow" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 52)
+script = ExtResource("1_script")
+
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Avatar" type="Panel" parent="HBox"]
+unique_name_in_owner = true
+clip_children = 2
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="AvatarLabel" type="Label" parent="HBox/Avatar"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AvatarImage" type="TextureRect" parent="HBox/Avatar"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="NameLabel" type="Label" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 17
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="HostBadge" type="Label" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_host")
+text = "HÔTE"
+
+[node name="ActionButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+text = "+ Ajouter un bot"
+
+[node name="ReadyBadge" type="Label" parent="HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 1

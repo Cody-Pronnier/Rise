@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://ui/components/combat/live_standings_panel.gd" id="1_script"]
+
+[node name="LiveStandingsPanel" type="PanelContainer"]
+z_index = 30
+offset_left = 16.0
+offset_top = 90.0
+offset_right = 476.0
+offset_bottom = 400.0
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Header" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TitleLabel" type="Label" parent="VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.78, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 19
+text = "Classement en direct"
+
+[node name="HintLabel" type="Label" parent="VBox/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.68, 0.66, 0.78, 1)
+theme_override_font_sizes/font_size = 12
+text = "Tab pour fermer"
+
+[node name="Separator" type="HSeparator" parent="VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Rows" type="VBoxContainer" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 140" width="300" height="140">
+<defs>
+<linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#8f9ab2"/></linearGradient>
+<linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe9a0"/><stop offset="1" stop-color="#d08f1f"/></linearGradient>
+<linearGradient id="wood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b07a48"/><stop offset="1" stop-color="#5e3b1f"/></linearGradient>
+<radialGradient id="fire" cx="0.45" cy="0.6" r="0.6"><stop offset="0" stop-color="#fff2a8"/><stop offset="0.5" stop-color="#ff9a2e"/><stop offset="1" stop-color="#e2401c"/></radialGradient>
+<radialGradient id="blood" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#ff7a7a"/><stop offset="1" stop-color="#a1121e"/></radialGradient>
+<radialGradient id="poison" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#d9ff8a"/><stop offset="1" stop-color="#3f9a1c"/></radialGradient>
+<radialGradient id="ice" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#7cc8ff"/></radialGradient>
+<radialGradient id="leaf" cx="0.4" cy="0.3" r="0.8"><stop offset="0" stop-color="#b8f56a"/><stop offset="1" stop-color="#3c8a24"/></radialGradient>
+<radialGradient id="stone" cx="0.4" cy="0.3" r="0.8"><stop offset="0" stop-color="#d4d2cc"/><stop offset="1" stop-color="#6e6a62"/></radialGradient>
+<radialGradient id="holy" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff8c8" stop-opacity="0.95"/><stop offset="1" stop-color="#fff2a0" stop-opacity="0"/></radialGradient>
+<linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0.6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.55"/></linearGradient>
+
+<radialGradient id="bg" cx="0.5" cy="0.38" r="0.75"><stop offset="0" stop-color="#c4f0b4"/><stop offset="0.45" stop-color="#3f8f3a"/><stop offset="1" stop-color="#0f2a12"/></radialGradient>
+</defs>
+<rect width="300" height="140" fill="url(#bg)"/>
+
+<g stroke="#1b1420" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round">
+<g transform="translate(170 58) rotate(0) scale(0.9)"><path d="M0 -42 L36 -30 Q36 18 0 42 Q-36 18 -36 -30 Z" fill="url(#wood)"/><path d="M-22 -26 Q-22 6 -6 26" fill="none" stroke="#fff" stroke-width="4" opacity="0.5"/></g><g transform="translate(150 58) rotate(-8) scale(1)"><path d="M-95.0 0 L85.0 0" stroke-width="10"/><path d="M-95.0 0 L85.0 0" stroke="#9a6a3a" stroke-width="5"/>
+<path d="M81.0 -10 L107.0 0 L81.0 10 Z" fill="url(#metal)"/>
+<path d="M-93.0 0 L-109.0 -12 L-85.0 -12 L-73.0 0 L-85.0 12 L-109.0 12 Z" fill="#e85a4f"/></g><path d="M 232 36 Q 232 44 240 44 Q 232 44 232 52 Q 232 44 224 44 Q 232 44 232 36 Z" fill="#ffffff" stroke-width="2"/>
+</g>
+<rect width="300" height="140" fill="url(#fade)"/>
+</svg>

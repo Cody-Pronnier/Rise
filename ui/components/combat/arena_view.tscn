@@ -1,0 +1,112 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://ui/components/combat/arena_view.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://ui/components/combat/unit_view.tscn" id="2_unit"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arena"]
+bg_color = Color(0, 0, 0, 0)
+draw_center = false
+
+[node name="ArenaView" type="PanelContainer"]
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_arena")
+script = ExtResource("1_script")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/margin_left = 96
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 96
+theme_override_constants/margin_bottom = 16
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Header" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/separation = 16
+
+[node name="OwnerLabel" type="Label" parent="Margin/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 24
+
+[node name="StateLabel" type="Label" parent="Margin/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 20
+
+[node name="MonsterCounterLabel" type="Label" parent="Margin/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+
+[node name="Stage" type="HBoxContainer" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+theme_override_constants/separation = 24
+
+[node name="HeroSide" type="HBoxContainer" parent="Margin/VBox/Stage"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/separation = 16
+
+[node name="CharacterView" parent="Margin/VBox/Stage/HeroSide" instance=ExtResource("2_unit")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="CompanionContainer" type="HBoxContainer" parent="Margin/VBox/Stage/HeroSide"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 1
+theme_override_constants/separation = 12
+
+[node name="Spacer" type="Control" parent="Margin/VBox/Stage"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+
+[node name="MonsterSide" type="HBoxContainer" parent="Margin/VBox/Stage"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/separation = 16
+
+[node name="MonsterCompanionContainer" type="HBoxContainer" parent="Margin/VBox/Stage/MonsterSide"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 1
+theme_override_constants/separation = 12
+
+[node name="MonsterView" parent="Margin/VBox/Stage/MonsterSide" instance=ExtResource("2_unit")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+facing = -1.0
+
+[node name="HiddenOverlay" type="CenterContainer" parent="Margin/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+
+[node name="HiddenLabel" type="Label" parent="Margin/VBox/HiddenOverlay"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.55, 0.75, 1)
+theme_override_font_sizes/font_size = 32
+text = "Ce terrain est invisible"
