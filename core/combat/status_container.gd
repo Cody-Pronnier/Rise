@@ -6,6 +6,8 @@ extends RefCounted
 signal changed
 
 var _instances: Array[StatusInstance] = []
+## Dégâts des statuts arrivés à terme pendant le dernier tick (voir take_expired_damage).
+var _expired_damage: float = 0.0
 
 
 func get_instances() -> Array[StatusInstance]:
@@ -26,6 +28,8 @@ func add(status: StatusData) -> bool:
 func tick(delta: float) -> void:
 	for instance: StatusInstance in _instances:
 		instance.tick(delta)
+		if instance.is_expired():
+			_expired_damage += instance.data.damage_on_expire
 	_remove_where(func(instance: StatusInstance) -> bool: return instance.is_expired())
 
 
@@ -35,6 +39,44 @@ func remove_categories(categories: Array[int]) -> void:
 
 func clear() -> void:
 	_remove_where(func(_instance: StatusInstance) -> bool: return true)
+
+
+## Renvoie puis remet à zéro les dégâts des statuts arrivés à terme (ex : Météore).
+func take_expired_damage() -> float:
+	var amount: float = _expired_damage
+	_expired_damage = 0.0
+	return amount
+
+
+## Les boucliers absorbent les dégâts dans l'ordre d'application ; un bouclier vide disparaît.
+## Renvoie les dégâts qui passent à travers.
+func absorb(amount: float) -> float:
+	var remaining: float = amount
+	for instance: StatusInstance in _instances:
+		if remaining <= 0.0:
+			break
+		if instance.shield_left > 0.0:
+			remaining = instance.absorb(remaining)
+	_remove_where(func(instance: StatusInstance) -> bool: return instance.is_shield_broken())
+	return remaining
+
+
+func has_status(id: StringName) -> bool:
+	return _instances.any(func(instance: StatusInstance) -> bool: return instance.data.id == id)
+
+
+func has_any_status(ids: Array[StringName]) -> bool:
+	return ids.any(func(id: StringName) -> bool: return has_status(id))
+
+
+## Nombre de types différents de dégâts sur la durée (poison, saignement, brûlure…).
+## Deux poisons comptent pour un seul type.
+func damage_over_time_kinds() -> int:
+	var kinds: Array[StringName] = []
+	for instance: StatusInstance in _instances:
+		if instance.data.is_damage_over_time() and not kinds.has(instance.data.id):
+			kinds.append(instance.data.id)
+	return kinds.size()
 
 
 func has_flag(flag: int) -> bool:

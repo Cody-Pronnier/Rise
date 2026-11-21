@@ -9,16 +9,6 @@ extends CardEffect
 func apply(context: CardContext) -> void:
 	if context.target_units.is_empty():
 		return
-	for unit: CombatUnit in _side_of(context.target_units[0], context.target_field):
+	for unit: CombatUnit in context.target_field.get_side_of(context.target_units[0]):
 		if unit.is_alive():
 			unit.apply_status(status)
-
-
-func _side_of(unit: CombatUnit, field: Field) -> Array[CombatUnit]:
-	if unit.side == CombatUnit.Side.HERO:
-		return field.get_heroes()
-	var monsters: Array[CombatUnit] = []
-	if field.current_monster:
-		monsters.append(field.current_monster)
-	monsters.append_array(field.monster_companions)
-	return monsters

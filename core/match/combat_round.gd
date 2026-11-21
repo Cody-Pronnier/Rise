@@ -7,6 +7,7 @@ extends RefCounted
 signal player_finished(player_id: int, rank: int)
 signal card_played(caster_id: int, card: CardData, target: CardTarget)
 signal ability_used(player_id: int)
+signal preparation_finished
 signal round_finished(results: Array[RoundResult])
 
 var round_index: int
@@ -17,6 +18,8 @@ var fields: Dictionary[int, Field] = {}
 var is_over: bool = false
 var alliances := AllianceRegistry.new()
 var trades: TradeDesk
+## Secondes restantes avant le début des combats (0 = les combats ont commencé).
+var preparation_left: float = 0.0
 
 var _finish_order: Array[int] = []
 
@@ -24,6 +27,7 @@ var _finish_order: Array[int] = []
 func _init(p_round_index: int, p_players: Array[PlayerState]) -> void:
 	round_index = p_round_index
 	monster_family = MonsterRoster.pick_family()
+	preparation_left = _preparation_duration()
 	for player: PlayerState in p_players:
 		_register_player(player)
 	trades = TradeDesk.new(players, fields, alliances)
@@ -32,13 +36,22 @@ func _init(p_round_index: int, p_players: Array[PlayerState]) -> void:
 func tick(delta: float) -> void:
 	if is_over:
 		return
-	for player: PlayerState in players.values():
-		player.tick(delta)
 	trades.tick(delta)
+	if is_preparing():
+		_tick_preparation(delta)
+		return
+	var combat_delta: float = delta * CombatConfig.GAME_SPEED
+	for player: PlayerState in players.values():
+		player.tick(combat_delta)
 	for field: Field in fields.values():
-		field.tick(delta)
+		field.tick(combat_delta)
 		if is_over:
 			return
+
+
+## Pendant la préparation, les terrains sont figés : seules les alliances et les échanges sont possibles.
+func is_preparing() -> bool:
+	return preparation_left > 0.0
 
 
 ## Renvoie "" si la carte a été jouée, sinon la raison du refus.
@@ -58,6 +71,8 @@ func use_ability(player_id: int) -> String:
 	var field: Field = fields.get(player_id)
 	if is_over or field == null:
 		return "La manche est terminée."
+	if is_preparing():
+		return "Les combats n'ont pas encore commencé."
 	if field.is_finished():
 		return "Tu as déjà terminé ta manche."
 	var error: String = field.passive.get_ability_error()
@@ -89,6 +104,18 @@ func get_rank(player_id: int) -> int:
 ## Les joueurs dans leur ordre d'arrivée, limités aux `count` premiers.
 func get_top_finishers(count: int) -> Array[int]:
 	return _finish_order.slice(0, count)
+
+
+func _preparation_duration() -> float:
+	if round_index > 0 and not CombatConfig.PREPARATION_EVERY_ROUND:
+		return 0.0
+	return CombatConfig.PREPARATION_DURATION
+
+
+func _tick_preparation(delta: float) -> void:
+	preparation_left = maxf(preparation_left - delta, 0.0)
+	if not is_preparing():
+		preparation_finished.emit()
 
 
 func _register_player(player: PlayerState) -> void:

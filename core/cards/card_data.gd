@@ -16,12 +16,20 @@ enum TargetMode {
 @export var class_id: StringName
 @export var target_mode: TargetMode = TargetMode.UNIT
 @export var is_ultimate: bool = false
+## Mana à dépenser pour jouer la carte.
+@export var cost: int = 3
 ## Indique aux bots si la carte sert plutôt à aider (soin, buff) ou à gêner.
 @export var is_beneficial: bool = false
 @export var effects: Array[CardEffect] = []
 
 
 ## Vrai pour les cartes qui partent sans choix de cible (son terrain, ou tous les terrains).
+## Pour déclarer le coût en fin de ligne : CardFactory.card(...).with_cost(2).
+func with_cost(value: int) -> CardData:
+	cost = value
+	return self
+
+
 func is_played_without_target() -> bool:
 	return target_mode == TargetMode.SELF or target_mode == TargetMode.ALL_FIELDS
 

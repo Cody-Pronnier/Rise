@@ -16,6 +16,12 @@ func build(combat_round: CombatRound, viewer_id: int) -> void:
 	combat_round.player_finished.connect(_on_player_finished)
 
 
+## Joueur de l'onglet à cette position (0 = le premier), -1 s'il n'y en a pas.
+func player_id_at(index: int) -> int:
+	var ids: Array = _tabs.keys()
+	return ids[index] if index >= 0 and index < ids.size() else -1
+
+
 func set_active(player_id: int) -> void:
 	for tab_player_id: int in _tabs:
 		_tabs[tab_player_id].set_pressed_no_signal(tab_player_id == player_id)

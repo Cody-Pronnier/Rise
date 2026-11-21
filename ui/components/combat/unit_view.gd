@@ -168,11 +168,15 @@ func _update_status_timers() -> void:
 
 
 ## « Bouclier 3s » ; une décimale sous 3 secondes pour sentir la fin approcher.
+## Un bouclier qui absorbe les dégâts affiche aussi ses points restants : « Barrière arcanique (22) 6s ».
 func _format_status(instance: StatusInstance) -> String:
+	var label: String = instance.data.display_name
+	if instance.shield_left > 0.0:
+		label = "%s (%d)" % [label, ceili(instance.shield_left)]
 	var remaining: float = maxf(instance.remaining, 0.0)
 	if remaining < 3.0:
-		return "%s %.1fs" % [instance.data.display_name, remaining]
-	return "%s %ds" % [instance.data.display_name, ceili(remaining)]
+		return "%s %.1fs" % [label, remaining]
+	return "%s %ds" % [label, ceili(remaining)]
 
 
 ## Avec une illustration : on l'affiche (grisée si l'unité est morte).

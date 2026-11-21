@@ -30,10 +30,36 @@ static func pick_family() -> Family:
 
 static func build_for_round(round_index: int, family: Family = Family.GREENSKINS) -> Array[UnitData]:
 	var multiplier: float = 1.0 + CombatConfig.MONSTER_SCALING_PER_ROUND * round_index
+	var family_monsters: Array[UnitData] = _base_monsters(family)
+	var count: int = count_for_round(round_index)
 	var monsters: Array[UnitData] = []
-	for monster: UnitData in _base_monsters(family):
-		monsters.append(monster.scaled(multiplier))
+	for index: int in count:
+		var base: UnitData = family_monsters[_tier_for(index, count, family_monsters.size())]
+		monsters.append(_with_extra_health(base.scaled(multiplier)))
 	return monsters
+
+
+## Nombre de monstres de la manche (au moins 1), d'après CombatConfig.MONSTERS_BY_ROUND.
+static func count_for_round(round_index: int) -> int:
+	var counts: Array[int] = CombatConfig.MONSTERS_BY_ROUND
+	if counts.is_empty():
+		return 1
+	return maxi(counts[mini(round_index, counts.size() - 1)], 1)
+
+
+## Type du monstre à cette position : on monte du plus faible au plus fort, et le dernier
+## monstre est toujours le plus fort (ex : 5 monstres = Gobelin, Orc, Orc, Troll, Troll ;
+## 1 seul = Troll ; 2 = Gobelin puis Troll).
+static func _tier_for(index: int, count: int, tiers: int) -> int:
+	if count <= 1:
+		return tiers - 1
+	return roundi(float(index) * (tiers - 1) / (count - 1))
+
+
+## Seuls les PV sont augmentés : les dégâts des monstres restent inchangés.
+static func _with_extra_health(monster: UnitData) -> UnitData:
+	monster.max_health *= CombatConfig.MONSTER_HEALTH_MULTIPLIER
+	return monster
 
 
 ## Les deux familles ont une difficulté proche : les dragons frappent un peu plus fort

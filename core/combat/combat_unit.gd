@@ -65,9 +65,11 @@ func tick(delta: float) -> void:
 	if not is_alive():
 		return
 	statuses.tick(delta)
+	_apply_expired_damage()
 	_tick_periodic_damage(delta)
 	_tick_periodic_heal(delta)
-	_attack_cooldown -= delta
+	if not statuses.has_flag(StatusData.Flag.STUN):
+		_attack_cooldown -= delta
 
 
 func perform_attack(target: CombatUnit) -> void:
@@ -82,7 +84,11 @@ func perform_attack(target: CombatUnit) -> void:
 func receive_damage(info: DamageInfo) -> void:
 	if not is_alive() or _try_avoid(info) or _try_reflect(info):
 		return
-	_lose_health(DamageCalculator.incoming_amount(self, info), info.is_critical)
+	var amount: float = _absorb_with_shields(DamageCalculator.incoming_amount(self, info), info)
+	if amount <= 0.0:
+		attack_avoided.emit("Absorbé")
+		return
+	_lose_health(amount, info.is_critical)
 	_apply_on_hit_statuses(info)
 	_try_emergency_heal()
 
@@ -129,6 +135,18 @@ func _try_avoid(info: DamageInfo) -> bool:
 		attack_avoided.emit("Bloqué")
 		return true
 	return false
+
+
+## Les boucliers (Barrière arcanique…) absorbent les dégâts, sauf les dégâts imblocables.
+func _absorb_with_shields(amount: float, info: DamageInfo) -> float:
+	return amount if info.unblockable else statuses.absorb(amount)
+
+
+## Dégâts des statuts arrivés à terme (Météore). Un sort : il peut être esquivé ou bloqué.
+func _apply_expired_damage() -> void:
+	var amount: float = statuses.take_expired_damage()
+	if amount > 0.0:
+		receive_damage(DamageCalculator.build_spell(amount, false, false))
 
 
 func _try_reflect(info: DamageInfo) -> bool:

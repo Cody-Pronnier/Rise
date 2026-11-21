@@ -5,6 +5,9 @@ extends Screen
 
 const MESSAGE_DURATION: float = 2.5
 const BOOST_REFRESH_INTERVAL: float = 0.5
+## Raccourcis des onglets de terrain : la rangée de chiffres, par position physique
+## (& é " ' ( - è _ sur un clavier AZERTY, 1 à 8 sur un QWERTY).
+const FIELD_SHORTCUTS: Array[Key] = [KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8]
 
 @onready var _tab_bar: FieldTabBar = %FieldTabBar
 @onready var _arena: ArenaView = %ArenaView
@@ -22,6 +25,8 @@ const BOOST_REFRESH_INTERVAL: float = 0.5
 @onready var _ability_panel: ClassAbilityPanel = %ClassAbilityPanel
 @onready var _history_panel: HistoryPanel = %HistoryPanel
 @onready var _game_menu: GameMenu = %GameMenu
+@onready var _preparation_banner: PreparationBanner = %PreparationBanner
+@onready var _mana_bar: ManaBar = %ManaBar
 
 var _round: CombatRound
 var _local_player: PlayerState
@@ -51,6 +56,11 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	var shortcut_index: int = _field_shortcut_index(event)
+	if shortcut_index != -1:
+		_on_field_shortcut(shortcut_index)
+		get_viewport().set_input_as_handled()
+		return
 	if _is_standings_shortcut(event):
 		_standings_panel.toggle()
 		get_viewport().set_input_as_handled()
@@ -88,7 +98,9 @@ func _connect_match() -> void:
 	_round.card_played.connect(_on_card_played)
 	_local_player.hand_changed.connect(_refresh_hand)
 	_local_player.card_lock_changed.connect(_on_card_lock_changed)
+	_local_player.mana_changed.connect(_hand.set_mana)
 	_round.round_finished.connect(_on_round_finished)
+	_round.preparation_finished.connect(_on_preparation_finished)
 
 
 func _build_views() -> void:
@@ -97,8 +109,12 @@ func _build_views() -> void:
 	_standings_panel.setup(_round, _local_player.id)
 	_ability_panel.setup(_round.fields[_local_player.id].passive)
 	_history_panel.setup(_round, _local_player.id)
+	_preparation_banner.setup(_round)
+	_mana_bar.setup(_local_player)
+	_hand.set_mana(_local_player.mana)
 	_result_panel.hide()
 	_lock_label.text = ""
+	_refresh_hand_lock()
 	_message_label.hide()
 	_refresh_hand()
 
@@ -189,6 +205,8 @@ func _play_card(card: CardData, target: CardTarget) -> void:
 func _on_card_selected(card: CardData) -> void:
 	if _targeting.is_selecting(card):
 		_cancel_targeting()
+	elif not _local_player.can_afford(card):
+		_show_message("Pas assez de mana (%d / %d)." % [floori(_local_player.mana), card.cost])
 	elif card.is_played_without_target():
 		_play_card(card, CardTarget.for_player(_local_player.id))
 	else:
@@ -206,10 +224,21 @@ func _on_arena_clicked() -> void:
 
 
 func _on_card_lock_changed(is_locked: bool) -> void:
-	_hand.set_locked(is_locked)
+	_refresh_hand_lock()
 	_lock_label.text = "Cartes bloquées !" if is_locked else ""
 	if is_locked:
 		_cancel_targeting()
+
+
+## Main grisée tant que les cartes sont bloquées ou que les combats n'ont pas commencé
+## (on peut toujours survoler les cartes pour les lire).
+func _refresh_hand_lock() -> void:
+	_hand.set_locked(_local_player.is_card_locked() or _round.is_preparing())
+
+
+func _on_preparation_finished() -> void:
+	_refresh_hand_lock()
+	_show_message("Que les combats commencent !")
 
 
 ## Les cartes ont un z_index (éventail) et passeraient devant le panneau de résultats : on les retire.
@@ -218,6 +247,7 @@ func _hide_round_controls() -> void:
 	_social_panel.hide()
 	_standings_panel.hide()
 	_ability_panel.hide()
+	_mana_bar.hide()
 	_history_panel.hide()
 	_trade_inbox.hide()
 	_lock_label.hide()
@@ -232,6 +262,20 @@ func _is_viewed_field_hit(caster_id: int, card: CardData, target: CardTarget) ->
 func _is_standings_shortcut(event: InputEvent) -> bool:
 	var key := event as InputEventKey
 	return key != null and key.pressed and not key.echo and key.keycode == KEY_TAB and not _round.is_over
+
+
+## Position de l'onglet visé par la touche, -1 si ce n'est pas un raccourci de terrain.
+func _field_shortcut_index(event: InputEvent) -> int:
+	var key := event as InputEventKey
+	if key == null or not key.pressed or key.echo or _round.is_over:
+		return -1
+	return FIELD_SHORTCUTS.find(key.physical_keycode)
+
+
+func _on_field_shortcut(index: int) -> void:
+	var player_id: int = _tab_bar.player_id_at(index)
+	if player_id != -1:
+		_view_field(player_id)
 
 
 func _on_alliances_changed() -> void:

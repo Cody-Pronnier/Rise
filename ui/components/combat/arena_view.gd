@@ -150,7 +150,9 @@ func _get_unit_views() -> Array[UnitView]:
 func _describe_monster_counter() -> String:
 	if _field.is_finished():
 		return "Manche terminée !"
-	return "Monstre %d / %d" % [_field.kills + 1, CombatConfig.MONSTERS_PER_ROUND]
+	if _field.is_between_monsters():
+		return "Monstre %d / %d arrive…" % [_field.kills + 1, _field.total_monsters]
+	return "Monstre %d / %d" % [_field.kills + 1, _field.total_monsters]
 
 
 func _describe_field_state() -> String:

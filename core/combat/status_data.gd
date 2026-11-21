@@ -12,13 +12,14 @@ enum Flag {
 	DODGE_ALL = 8,      ## Esquive toutes les attaques pendant la durée.
 	CC_IMMUNE = 16,     ## Insensible aux statuts de catégorie CONTROL.
 	REFLECT = 32,       ## Renvoie les dégâts d'attaque vers l'attaquant.
+	STUN = 64,          ## Ne peut plus attaquer : sa prochaine attaque attend la fin du statut.
 }
 
 @export var id: StringName
 @export var display_name: String = ""
 @export var duration: float = 5.0
 @export var category: Category = Category.BUFF
-@export_flags("Aveuglement", "Immunité dégâts", "Esquive prochaine", "Esquive totale", "Immunité CC", "Renvoi") var flags: int = 0
+@export_flags("Aveuglement", "Immunité dégâts", "Esquive prochaine", "Esquive totale", "Immunité CC", "Renvoi", "Étourdi") var flags: int = 0
 
 @export_group("Multiplicateurs")
 @export var damage_mult: float = 1.0
@@ -33,6 +34,11 @@ enum Flag {
 @export var heal_per_second: float = 0.0
 ## Soin déclenché une seule fois quand l'unité passe sous le seuil critique.
 @export var emergency_heal: float = 0.0
+## Bouclier : absorbe ce montant de dégâts (coups uniquement), puis le statut disparaît.
+@export var shield_amount: float = 0.0
+## Dégâts subis par le porteur quand le statut arrive à son terme (ex : Météore).
+## Un statut retiré avant la fin (dissipation) n'inflige rien.
+@export var damage_on_expire: float = 0.0
 ## Statut appliqué à chaque cible touchée par les attaques du porteur (ex : arme empoisonnée).
 @export var on_hit_status: StatusData
 
@@ -43,3 +49,7 @@ func has_flag(flag: int) -> bool:
 
 func is_control() -> bool:
 	return category == Category.CONTROL
+
+
+func is_damage_over_time() -> bool:
+	return damage_per_second > 0.0

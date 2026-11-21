@@ -31,9 +31,9 @@ static func burn() -> StatusData:
 	return status
 
 
-static func poison() -> StatusData:
-	var status: StatusData = _make(&"poison", "Poison", 5.0, DEBUFF)
-	status.damage_per_second = 2.0
+static func poison(damage_per_second: float = 2.0, duration: float = 5.0) -> StatusData:
+	var status: StatusData = _make(&"poison", "Poison", duration, DEBUFF)
+	status.damage_per_second = damage_per_second
 	return status
 
 
@@ -63,6 +63,27 @@ static func smoke() -> StatusData:
 	return status
 
 
+## L'unité ne peut plus attaquer pendant la durée.
+static func trip() -> StatusData:
+	var status: StatusData = _make(&"trip", "Croc-en-jambe", 2.0, CONTROL)
+	status.flags = StatusData.Flag.STUN
+	return status
+
+
+## L'unité subit plus de dégâts (de toutes les sources sauf les dégâts imblocables).
+static func hunter_mark() -> StatusData:
+	var status: StatusData = _make(&"hunter_mark", "Marque du chasseur", 8.0, DEBUFF)
+	status.damage_taken_mult = 1.3
+	return status
+
+
+## Le météore tombe à la fin du statut. Une dissipation l'annule.
+static func meteor(damage: float, delay: float) -> StatusData:
+	var status: StatusData = _make(&"meteor", "Météore", delay, DEBUFF)
+	status.damage_on_expire = damage
+	return status
+
+
 static func slow() -> StatusData:
 	var status: StatusData = _make(&"slow", "Ralenti", 6.0, DEBUFF)
 	status.attack_speed_mult = 0.7
@@ -74,6 +95,12 @@ static func slow() -> StatusData:
 static func shield() -> StatusData:
 	var status: StatusData = _make(&"shield", "Bouclier", 4.0, BUFF)
 	status.flags = StatusData.Flag.DAMAGE_IMMUNE
+	return status
+
+
+static func arcane_barrier() -> StatusData:
+	var status: StatusData = _make(&"arcane_barrier", "Barrière arcanique", 10.0, BUFF)
+	status.shield_amount = 35.0
 	return status
 
 

@@ -30,6 +30,9 @@ const TINTS: Dictionary[StringName, Color] = {
 	&"stone_skin": Color(0.85, 0.85, 0.85),
 	&"curse": Color(0.85, 0.7, 1.1),
 	&"bribed": Color(1.15, 1.05, 0.7),
+	&"hunter_mark": Color(1.25, 0.85, 0.8),
+	&"trip": Color(0.85, 0.85, 0.9),
+	&"meteor": Color(1.2, 0.9, 0.75),
 }
 
 ## Statuts qui rendent l'unité semi-transparente (esquive).
@@ -58,6 +61,8 @@ const AURAS: Dictionary[StringName, Color] = {
 	&"sharpened_blade": AURA_RED,
 	&"plate_armor": AURA_GREY,
 	&"swift_boots": AURA_BLUE,
+	&"hunter_mark": AURA_RED,
+	&"meteor": AURA_RED,
 }
 
 var scale: float = 1.0
@@ -80,5 +85,5 @@ func _add(status: StatusData) -> void:
 		tint.a = TRANSLUCENT_ALPHA
 	if aura.a == 0.0 and AURAS.has(status.id):
 		aura = AURAS[status.id]
-	if status.has_flag(StatusData.Flag.DAMAGE_IMMUNE):
+	if status.has_flag(StatusData.Flag.DAMAGE_IMMUNE) or status.shield_amount > 0.0:
 		has_shield = true

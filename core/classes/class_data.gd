@@ -1,12 +1,15 @@
 class_name ClassData
 extends Resource
-## Une classe jouable : les stats de son personnage et ses 6 cartes.
+## Une classe jouable : les stats de son personnage, ses cartes et son deck de départ.
 
 @export var id: StringName
 @export var display_name: String = ""
 @export var description: String = ""
 @export var character: UnitData
 @export var cards: Array[CardData] = []
+## Deck de départ : id de carte → nombre d'exemplaires. Vide = 3 exemplaires de chaque
+## carte normale + l'ultime (voir DeckRules.default_deck_ids).
+var starter_deck: Dictionary[StringName, int] = {}
 ## Mécanique unique de la classe, affichée dans le codex ("" si aucune).
 @export var passive_description: String = ""
 ## Crée un ClassPassive neuf pour chaque terrain. Vide = aucune règle spéciale.
@@ -34,6 +37,12 @@ static func create(
 func with_passive(factory: Callable, description: String) -> ClassData:
 	passive_factory = factory
 	passive_description = description
+	return self
+
+
+## Deck de départ fixe, utile quand la classe a plus de cartes que n'en contient un deck.
+func with_starter_deck(counts: Dictionary[StringName, int]) -> ClassData:
+	starter_deck = counts
 	return self
 
 

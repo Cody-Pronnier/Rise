@@ -4,7 +4,8 @@ extends RefCounted
 ## - exactement DECK_SIZE cartes ;
 ## - les cartes de sa classe + les cartes neutres ;
 ## - MAX_COPIES exemplaires au plus d'une même carte, MAX_ULTIMATES ultime au plus.
-## Le deck de base d'une classe : 3 exemplaires de chaque carte normale + l'ultime.
+## Le deck de base d'une classe : son deck de départ s'il en a un, sinon 3 exemplaires
+## de chaque carte normale + l'ultime.
 
 const DECK_SIZE: int = 16
 const MAX_COPIES: int = 3
@@ -23,6 +24,8 @@ static func max_copies_of(card: CardData) -> int:
 
 
 static func default_deck_ids(class_data: ClassData) -> Array[StringName]:
+	if not class_data.starter_deck.is_empty():
+		return _starter_deck_ids(class_data)
 	var ids: Array[StringName] = []
 	for card: CardData in class_data.cards:
 		for _copy: int in max_copies_of(card):
@@ -71,6 +74,17 @@ static func count_ids(card_ids: Array) -> Dictionary:
 		var key := StringName(card_id)
 		counts[key] = counts.get(key, 0) + 1
 	return counts
+
+
+static func _starter_deck_ids(class_data: ClassData) -> Array[StringName]:
+	var ids: Array[StringName] = []
+	for card_id: StringName in class_data.starter_deck:
+		for _copy: int in class_data.starter_deck[card_id]:
+			ids.append(card_id)
+	var error: String = get_error(class_data, ids)
+	if not error.is_empty():
+		push_error("Deck de départ invalide pour %s : %s" % [class_data.display_name, error])
+	return ids
 
 
 static func _pool_by_id(class_data: ClassData) -> Dictionary[StringName, CardData]:

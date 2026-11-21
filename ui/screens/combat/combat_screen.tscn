@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=20 format=3]
 
 [ext_resource type="Script" path="res://ui/screens/combat/combat_screen.gd" id="1_script"]
 [ext_resource type="Script" path="res://ui/components/combat/field_tab_bar.gd" id="2_tabs"]
@@ -15,6 +15,8 @@
 [ext_resource type="Script" path="res://ui/components/combat/class_ability_panel.gd" id="13_ability"]
 [ext_resource type="Script" path="res://ui/components/combat/history_panel.gd" id="14_history"]
 [ext_resource type="Script" path="res://ui/components/combat/game_menu.gd" id="15_menu"]
+[ext_resource type="Script" path="res://ui/components/combat/preparation_banner.gd" id="16_preparation"]
+[ext_resource type="Script" path="res://ui/components/combat/mana_bar.gd" id="17_mana"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_topbar"]
 content_margin_left = 12.0
@@ -147,6 +149,20 @@ grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("4_hand")
 
+[node name="ManaBar" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -72.0
+offset_right = 300.0
+offset_bottom = -20.0
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("17_mana")
+
 [node name="ClassAbilityPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 visible = false
@@ -160,6 +176,24 @@ offset_right = 230.0
 offset_bottom = 156.0
 grow_horizontal = 2
 script = ExtResource("13_ability")
+
+[node name="PreparationBanner" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("16_preparation")
 
 [node name="HistoryPanel" type="HBoxContainer" parent="."]
 unique_name_in_owner = true

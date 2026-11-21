@@ -1,6 +1,9 @@
 class_name CardFactory
 extends RefCounted
 ## Raccourcis pour déclarer une carte en une ligne.
+## Coût par défaut : 3 mana, 6 pour une ultime (à préciser avec CardData.with_cost()).
+
+const DEFAULT_ULTIMATE_COST: int = 6
 
 
 static func card(
@@ -31,4 +34,5 @@ static func ultimate(
 ) -> CardData:
 	var data: CardData = card(id, display_name, description, target_mode, effects, is_beneficial)
 	data.is_ultimate = true
+	data.cost = DEFAULT_ULTIMATE_COST
 	return data

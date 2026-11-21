@@ -8,11 +8,15 @@ extends RefCounted
 static func get_play_error(combat_round: CombatRound, caster_id: int, card: CardData, target: CardTarget) -> String:
 	if combat_round.is_over:
 		return "La manche est terminée."
+	if combat_round.is_preparing():
+		return "Les combats n'ont pas encore commencé."
 	var caster: PlayerState = combat_round.players.get(caster_id)
 	if caster == null or not caster.has_card(card):
 		return "Tu n'as plus cette carte."
 	if caster.is_card_locked():
 		return "Tes cartes sont bloquées."
+	if not caster.can_afford(card):
+		return "Pas assez de mana (%d / %d)." % [floori(caster.mana), card.cost]
 	if card.target_mode == CardData.TargetMode.ALL_FIELDS:
 		return ""
 	var error: String = _get_target_error(combat_round, caster_id, card, target)
@@ -30,6 +34,7 @@ static func _get_effects_error(combat_round: CombatRound, caster_id: int, card: 
 
 
 static func resolve(combat_round: CombatRound, caster_id: int, card: CardData, target: CardTarget) -> void:
+	combat_round.players[caster_id].spend_mana(card.cost)
 	combat_round.players[caster_id].consume_card(card)
 	if card.target_mode == CardData.TargetMode.ALL_FIELDS:
 		for field_id: int in affected_field_ids(combat_round, caster_id, card):

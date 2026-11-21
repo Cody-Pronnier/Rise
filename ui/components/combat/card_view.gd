@@ -7,6 +7,10 @@ const BACKGROUND_COLOR := Color(0.13, 0.12, 0.17)
 const FRAME_RADIUS: int = 12
 const FRAME_BORDER: int = 3
 const GEM_RADIUS: int = 17
+const MANA_COLOR := Color(0.25, 0.5, 1.0)
+const COST_ORB_SIZE: float = 34.0
+const UNAFFORDABLE_TINT := Color(0.62, 0.62, 0.72)
+const UNAFFORDABLE_COST_COLOR := Color(1.0, 0.45, 0.45)
 
 @onready var _glow: Panel = %Glow
 @onready var _frame: Panel = %Frame
@@ -27,6 +31,9 @@ var _card: CardData
 ## Multiplicateur affiché dans le texte (bonus de rattrapage) : 1.0 = valeurs normales.
 var _power: float = 1.0
 var _breath_tween: Tween
+## Pastille du coût en mana, en haut à droite (créée par le code).
+var _cost_orb := Panel.new()
+var _cost_label := Label.new()
 
 
 func _ready() -> void:
@@ -34,6 +41,7 @@ func _ready() -> void:
 	pivot_offset = size / 2.0
 	_glow.add_theme_stylebox_override("panel", _build_glow_style())
 	_glow.hide()
+	_build_cost_orb()
 
 
 ## À appeler après add_child() pour que les nœuds @onready soient prêts.
@@ -45,6 +53,7 @@ func display(card: CardData) -> void:
 	_target_label.text = card.describe_target()
 	_art.texture = CardPalette.art_texture(card)
 	_display_gem()
+	_cost_label.text = str(card.cost)
 	_apply_class_styles()
 	_apply_ultimate_layout()
 
@@ -60,6 +69,12 @@ func set_power(power: float) -> void:
 		return
 	_power = power
 	_description_label.text = CardText.describe(_card, _power)
+
+
+## Carte trop chère pour le mana actuel : grisée, coût en rouge.
+func set_affordable(affordable: bool) -> void:
+	modulate = Color.WHITE if affordable else UNAFFORDABLE_TINT
+	_cost_label.add_theme_color_override("font_color", Color.WHITE if affordable else UNAFFORDABLE_COST_COLOR)
 
 
 func set_selected(selected: bool) -> void:
@@ -133,6 +148,24 @@ func _refresh_breathing() -> void:
 	_overframe.scale = Vector2.ONE
 	if _overframe.visible:
 		_breath_tween = UltimateCardStyle.start_breathing(_overframe)
+
+
+func _build_cost_orb() -> void:
+	_cost_orb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_cost_orb.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	_cost_orb.offset_left = -COST_ORB_SIZE + 8.0
+	_cost_orb.offset_right = 8.0
+	_cost_orb.offset_top = -8.0
+	_cost_orb.offset_bottom = COST_ORB_SIZE - 8.0
+	_cost_orb.add_theme_stylebox_override("panel", UiStyle.with_shadow(UiStyle.box(MANA_COLOR, int(COST_ORB_SIZE / 2.0), Color(0.8, 0.9, 1.0), 2), UiStyle.SHADOW, 4))
+	_cost_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_cost_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_cost_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_cost_label.add_theme_font_size_override("font_size", 18)
+	_cost_label.add_theme_constant_override("outline_size", 5)
+	_cost_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	_cost_orb.add_child(_cost_label)
+	add_child(_cost_orb)
 
 
 func _build_gem_style(color: Color) -> StyleBoxFlat:

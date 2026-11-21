@@ -9,6 +9,8 @@ signal hand_changed
 signal deck_changed
 signal card_lock_changed(is_locked: bool)
 signal points_changed(points: int)
+## Émis quand le mana entier change (assez pour savoir quelles cartes sont jouables).
+signal mana_changed(mana: float)
 
 var id: int
 var display_name: String
@@ -23,6 +25,8 @@ var locked_cards: Array[CardData] = []
 var purchases: int = 0
 ## Cartes à usage unique pour la manche en cours (copie du deck au début de chaque manche).
 var hand: Array[CardData] = []
+## Mana pour jouer ses cartes : il se recharge avec le temps (voir CombatConfig.MANA_*).
+var mana: float = CombatConfig.MANA_START
 
 var _card_lock_remaining: float = 0.0
 
@@ -66,6 +70,7 @@ func add_card_to_deck(card: CardData) -> void:
 func deal_deck() -> void:
 	hand = deck.duplicate()
 	_clear_card_lock()
+	_set_mana(CombatConfig.MANA_START)
 	hand_changed.emit()
 
 
@@ -102,12 +107,32 @@ func lock_cards(duration: float) -> void:
 		card_lock_changed.emit(true)
 
 
+func can_afford(card: CardData) -> bool:
+	return mana >= card.cost
+
+
+func spend_mana(amount: int) -> void:
+	_set_mana(mana - amount)
+
+
 func add_points(amount: int) -> void:
 	points += amount
 	points_changed.emit(points)
 
 
 func tick(delta: float) -> void:
+	_set_mana(mana + CombatConfig.MANA_PER_SECOND * delta)
+	_tick_card_lock(delta)
+
+
+func _set_mana(value: float) -> void:
+	var previous: int = floori(mana)
+	mana = clampf(value, 0.0, CombatConfig.MANA_MAX)
+	if floori(mana) != previous:
+		mana_changed.emit(mana)
+
+
+func _tick_card_lock(delta: float) -> void:
 	if not is_card_locked():
 		return
 	_card_lock_remaining -= delta

@@ -16,6 +16,8 @@ var _views: Array[CardView] = []
 var _hovered_index: int = -1
 var _selected_card: CardData
 var _is_locked: bool = false
+## Mana du joueur : les cartes trop chères sont grisées.
+var _mana: float = INF
 
 
 func _ready() -> void:
@@ -54,6 +56,12 @@ func apply_power(power_for: Callable) -> void:
 func set_selected(card: CardData) -> void:
 	_selected_card = card
 	_refresh_selection()
+
+
+func set_mana(mana: float) -> void:
+	_mana = mana
+	for view: CardView in _views:
+		_refresh_affordable(view)
 
 
 func set_locked(locked: bool) -> void:
@@ -105,8 +113,13 @@ func _create_view(card: CardData) -> CardView:
 	var view: CardView = CARD_VIEW_SCENE.instantiate()
 	add_child(view)
 	view.display(card)
+	_refresh_affordable(view)
 	view.snap_to(Vector2(size.x / 2.0, size.y + SPAWN_OFFSET))
 	return view
+
+
+func _refresh_affordable(view: CardView) -> void:
+	view.set_affordable(_mana >= view.get_card().cost)
 
 
 func _find_view(card: CardData) -> CardView:

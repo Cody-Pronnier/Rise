@@ -87,9 +87,9 @@ func _describe_round(player: PlayerState) -> String:
 		return HIDDEN_TEXT
 	var field: Field = _round.fields[player.id]
 	return "Monstre %d/%d · %d%%" % [
-		mini(field.kills + 1, CombatConfig.MONSTERS_PER_ROUND),
-		CombatConfig.MONSTERS_PER_ROUND,
-		roundi(field.get_progress() / CombatConfig.MONSTERS_PER_ROUND * 100.0),
+		mini(field.kills + 1, field.total_monsters),
+		field.total_monsters,
+		roundi(field.get_progress() / field.total_monsters * 100.0),
 	]
 
 

@@ -45,8 +45,10 @@ static func _build_all() -> Array[CardData]:
 			"Achève un monstre qui a moins de 30 % de PV, sans tenir compte des protections.",
 			UNIT, [ExecuteEffect.new()], false),
 	]
+	## Récompenses du podium : elles ne coûtent pas de mana.
 	for card: CardData in cards:
 		card.class_id = CLASS_ID
+		card.cost = 0
 	return cards
 
 

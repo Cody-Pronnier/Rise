@@ -17,13 +17,16 @@ var character: CombatUnit
 var companions: Array[CombatUnit] = []
 ## Compagnons invoqués du côté du monstre : ils attaquent les héros et partent avec le monstre.
 var monster_companions: Array[CombatUnit] = []
-## null quand les 3 monstres sont tombés.
+## null pendant la pause entre deux monstres et quand les 3 monstres sont tombés.
 var current_monster: CombatUnit
 var kills: int = 0
+## Nombre de monstres à vaincre sur ce terrain pendant la manche.
+var total_monsters: int = 0
 var passive: ClassPassive
 
 var _pending_monsters: Array[UnitData] = []
 var _respawn_remaining: float = 0.0
+var _breather_remaining: float = 0.0
 var _protection_remaining: float = 0.0
 var _hidden_remaining: float = 0.0
 
@@ -33,6 +36,7 @@ func _init(p_owner_id: int, character_data: UnitData, monsters: Array[UnitData],
 	character = CombatUnit.new(character_data, CombatUnit.Side.HERO)
 	character.died.connect(_on_character_died)
 	_pending_monsters = monsters.duplicate()
+	total_monsters = monsters.size()
 	_spawn_next_monster()
 	passive = p_passive if p_passive else ClassPassive.new()
 	passive.attach(self)
@@ -41,7 +45,7 @@ func _init(p_owner_id: int, character_data: UnitData, monsters: Array[UnitData],
 # --- Lecture ----------------------------------------------------------------
 
 func is_finished() -> bool:
-	return kills >= CombatConfig.MONSTERS_PER_ROUND
+	return kills >= total_monsters
 
 
 ## 0 à 3 : nombre de monstres tués + fraction de PV retirée au monstre courant.
@@ -57,11 +61,23 @@ func get_heroes() -> Array[CombatUnit]:
 	return heroes
 
 
+## Le monstre en cours et ses compagnons.
+func get_monster_side() -> Array[CombatUnit]:
+	var monsters: Array[CombatUnit] = []
+	if current_monster:
+		monsters.append(current_monster)
+	monsters.append_array(monster_companions)
+	return monsters
+
+
+## Le camp d'une unité sur ce terrain : personnage + compagnons, ou monstre + ses compagnons.
+func get_side_of(unit: CombatUnit) -> Array[CombatUnit]:
+	return get_heroes() if unit.side == CombatUnit.Side.HERO else get_monster_side()
+
+
 func get_all_units() -> Array[CombatUnit]:
 	var units: Array[CombatUnit] = get_heroes()
-	if current_monster:
-		units.append(current_monster)
-	units.append_array(monster_companions)
+	units.append_array(get_monster_side())
 	return units
 
 
@@ -178,6 +194,7 @@ func tick(delta: float) -> void:
 		return
 	_tick_protection(delta)
 	_tick_respawn(delta)
+	_tick_breather(delta)
 	passive.tick(delta)
 	_tick_units(delta)
 	_resolve_hero_attacks()
@@ -201,6 +218,19 @@ func _tick_respawn(delta: float) -> void:
 	_respawn_remaining -= delta
 	if _respawn_remaining <= 0.0:
 		character.revive()
+
+
+## Pause entre deux monstres : le suivant arrive quand elle est écoulée.
+func is_between_monsters() -> bool:
+	return current_monster == null and not is_finished()
+
+
+func _tick_breather(delta: float) -> void:
+	if not is_between_monsters():
+		return
+	_breather_remaining -= delta
+	if _breather_remaining <= 0.0:
+		_spawn_next_monster()
 
 
 func _tick_units(delta: float) -> void:
@@ -249,6 +279,13 @@ func _spawn_next_monster() -> void:
 	progress_changed.emit(get_progress())
 
 
+func _start_breather() -> void:
+	current_monster = null
+	_breather_remaining = CombatConfig.MONSTER_BREATHER_DURATION
+	monster_changed.emit(null)
+	progress_changed.emit(get_progress())
+
+
 func _finish() -> void:
 	current_monster = null
 	monster_changed.emit(null)
@@ -262,7 +299,7 @@ func _on_monster_died() -> void:
 	if is_finished():
 		_finish()
 	else:
-		_spawn_next_monster()
+		_start_breather()
 
 
 func _on_monster_health_changed(_current: float, _maximum: float) -> void:

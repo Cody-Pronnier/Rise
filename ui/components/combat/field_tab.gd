@@ -90,7 +90,7 @@ func _create_progress_bar() -> void:
 	_progress_bar = ProgressBar.new()
 	_progress_bar.show_percentage = false
 	_progress_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_progress_bar.max_value = CombatConfig.MONSTERS_PER_ROUND
+	_progress_bar.max_value = _field.total_monsters
 	_progress_bar.add_theme_stylebox_override("background", UiStyle.box(Color(0, 0, 0, 0.5), 2))
 	_progress_bar.add_theme_stylebox_override("fill", UiStyle.box(_player.class_data.character.color, 2))
 	add_child(_progress_bar)
@@ -150,4 +150,4 @@ func _describe_progress() -> String:
 		return "???"
 	if _rank > 0:
 		return "Terminé · #%d" % _rank
-	return "Monstre %d/%d" % [mini(_field.kills + 1, CombatConfig.MONSTERS_PER_ROUND), CombatConfig.MONSTERS_PER_ROUND]
+	return "Monstre %d/%d" % [mini(_field.kills + 1, _field.total_monsters), _field.total_monsters]

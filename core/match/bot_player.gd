@@ -5,8 +5,8 @@ extends RefCounted
 ## ou accélèrent son propre combat.
 ## Ne tourne que chez l'hôte : il ne modifie rien lui-même, il soumet des commandes.
 
-const MIN_CARD_DELAY: float = 6.0
-const MAX_CARD_DELAY: float = 14.0
+const MIN_CARD_DELAY: float = 10.0
+const MAX_CARD_DELAY: float = 20.0
 const SELF_MONSTER_CHANCE: float = 0.5
 ## Délai entre deux essais de la capacité de classe (ex : recruter un mercenaire dès qu'il y a l'or).
 const ABILITY_CHECK_INTERVAL: float = 1.5
@@ -29,7 +29,7 @@ func _init(p_player: PlayerState, p_round: CombatRound, submit: Callable) -> voi
 
 
 func tick(delta: float) -> void:
-	if _round.is_over:
+	if _round.is_over or _round.is_preparing():
 		return
 	_tick_ability(delta)
 	if _player.hand.is_empty():
@@ -37,8 +37,11 @@ func tick(delta: float) -> void:
 	_delay -= delta
 	if _delay > 0.0:
 		return
+	var card: CardData = _pick_affordable_card()
+	if card == null:
+		return
 	_schedule_next_card()
-	_play_random_card()
+	_play_card(card)
 
 
 func _tick_ability(delta: float) -> void:
@@ -55,8 +58,13 @@ func _schedule_next_card() -> void:
 	_delay = randf_range(MIN_CARD_DELAY, MAX_CARD_DELAY)
 
 
-func _play_random_card() -> void:
-	var card: CardData = _player.hand.pick_random()
+## Une carte au hasard parmi celles que le bot peut payer (null s'il doit attendre son mana).
+func _pick_affordable_card() -> CardData:
+	var affordable: Array[CardData] = _player.hand.filter(_player.can_afford)
+	return affordable.pick_random() if not affordable.is_empty() else null
+
+
+func _play_card(card: CardData) -> void:
 	var target: CardTarget = _choose_target(card)
 	if target:
 		_submit.call(MatchCommands.play_card(_player.id, card, target, _round.fields[target.player_id]))

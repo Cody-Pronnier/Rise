@@ -55,7 +55,7 @@ func receive_class_choice(player_id: int, class_id: StringName, deck_ids: Array 
 	if _session.phase != MatchSession.Phase.CLASS_SELECTION or _class_choices.has(player_id):
 		return
 	var class_data: ClassData = ClassCatalog.find(class_id)
-	if not _is_selection_player(player_id) or class_data == null:
+	if not _is_selection_player(player_id) or class_data == null or not ClassCatalog.is_enabled(class_id):
 		return
 	if DeckRules.is_valid(class_data, deck_ids):
 		_deck_choices[player_id] = deck_ids
