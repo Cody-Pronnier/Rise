@@ -33,10 +33,12 @@ const TINTS: Dictionary[StringName, Color] = {
 	&"hunter_mark": Color(1.25, 0.85, 0.8),
 	&"trip": Color(0.85, 0.85, 0.9),
 	&"meteor": Color(1.2, 0.9, 0.75),
+	&"mirror_image": Color(0.75, 0.9, 1.35),
+	&"off_balance": Color(1.1, 0.9, 0.85),
 }
 
 ## Statuts qui rendent l'unité semi-transparente (esquive).
-const TRANSLUCENT_IDS: Array[StringName] = [&"evasion", &"decoy"]
+const TRANSLUCENT_IDS: Array[StringName] = [&"evasion", &"decoy", &"mirror_image"]
 const TRANSLUCENT_ALPHA: float = 0.55
 
 ## Aura derrière l'unité ; la première trouvée l'emporte.
@@ -63,6 +65,10 @@ const AURAS: Dictionary[StringName, Color] = {
 	&"swift_boots": AURA_BLUE,
 	&"hunter_mark": AURA_RED,
 	&"meteor": AURA_RED,
+	&"shadow_strike": AURA_PURPLE,
+	&"honor_duel": AURA_GOLD,
+	&"hawk_eye": AURA_GOLD,
+	&"blade_dance": AURA_RED,
 }
 
 var scale: float = 1.0

@@ -8,6 +8,8 @@ signal changed
 var _instances: Array[StatusInstance] = []
 ## Dégâts des statuts arrivés à terme pendant le dernier tick (voir take_expired_damage).
 var _expired_damage: float = 0.0
+## Vrai si un statut de durée de vie est arrivé à terme (voir take_lifetime_ended).
+var _lifetime_ended: bool = false
 
 
 func get_instances() -> Array[StatusInstance]:
@@ -30,6 +32,7 @@ func tick(delta: float) -> void:
 		instance.tick(delta)
 		if instance.is_expired():
 			_expired_damage += instance.data.damage_on_expire
+			_lifetime_ended = _lifetime_ended or instance.data.ends_unit_on_expire
 	_remove_where(func(instance: StatusInstance) -> bool: return instance.is_expired())
 
 
@@ -46,6 +49,13 @@ func take_expired_damage() -> float:
 	var amount: float = _expired_damage
 	_expired_damage = 0.0
 	return amount
+
+
+## Vrai (une seule fois) si la durée de vie de l'unité vient de se terminer.
+func take_lifetime_ended() -> bool:
+	var ended: bool = _lifetime_ended
+	_lifetime_ended = false
+	return ended
 
 
 ## Les boucliers absorbent les dégâts dans l'ordre d'application ; un bouclier vide disparaît.
@@ -85,11 +95,16 @@ func has_flag(flag: int) -> bool:
 
 ## Retire le premier statut portant ce drapeau. Renvoie true s'il y en avait un.
 func consume_flag(flag: int) -> bool:
+	return take_flag(flag) != null
+
+
+## Retire le premier statut portant ce drapeau et le renvoie (null s'il n'y en avait pas).
+func take_flag(flag: int) -> StatusData:
 	for instance: StatusInstance in _instances:
 		if instance.data.has_flag(flag):
 			_remove_instance(instance)
-			return true
-	return false
+			return instance.data
+	return null
 
 
 ## Retire le premier soin d'urgence disponible et renvoie sa valeur (0 si aucun).

@@ -36,6 +36,10 @@ enum Flag {
 @export var emergency_heal: float = 0.0
 ## Bouclier : absorbe ce montant de dégâts (coups uniquement), puis le statut disparaît.
 @export var shield_amount: float = 0.0
+## Riposte : quand ce statut fait esquiver une attaque, l'attaquant subit ces dégâts.
+@export var riposte_damage: float = 0.0
+## L'unité disparaît quand le statut arrive à son terme (invocation temporaire, ex : le double du Mage).
+@export var ends_unit_on_expire: bool = false
 ## Dégâts subis par le porteur quand le statut arrive à son terme (ex : Météore).
 ## Un statut retiré avant la fin (dissipation) n'inflige rien.
 @export var damage_on_expire: float = 0.0

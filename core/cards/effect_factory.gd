@@ -52,6 +52,13 @@ static func damage_per_damage_over_time(amount: float, bonus: float) -> DamageEf
 	return effect
 
 
+## Dégâts qui augmentent avec les PV manquants de la cible (achever un monstre affaibli).
+static func execute_damage(amount: float, bonus_per_missing_percent: float) -> DamageEffect:
+	var effect: DamageEffect = damage(amount)
+	effect.bonus_per_missing_health_percent = bonus_per_missing_percent
+	return effect
+
+
 static func delayed_damage(amount: float, delay: float) -> DelayedDamageEffect:
 	var effect := DelayedDamageEffect.new()
 	effect.amount = amount
@@ -59,9 +66,18 @@ static func delayed_damage(amount: float, delay: float) -> DelayedDamageEffect:
 	return effect
 
 
-static func pickpocket(points: int, fallback_damage: float) -> PickpocketEffect:
+## Dédoublement (Mage) : un double temporaire qui attaque et répète les cartes du lanceur.
+static func summon_double(duration: float, health: float, attack_ratio: float) -> SummonDoubleEffect:
+	var effect := SummonDoubleEffect.new()
+	effect.duration = duration
+	effect.health = health
+	effect.attack_ratio = attack_ratio
+	return effect
+
+
+## Détrousser (Voleur) : vide la jauge de mana d'un joueur mieux classé.
+static func pickpocket(fallback_damage: float) -> PickpocketEffect:
 	var effect := PickpocketEffect.new()
-	effect.stolen_points = points
 	effect.fallback_damage = fallback_damage
 	return effect
 
@@ -96,9 +112,10 @@ static func chain_damage(amount: float, max_targets: int) -> ChainDamageEffect:
 	return effect
 
 
-static func lock_cards(duration: float) -> LockCardsEffect:
+static func lock_cards(duration: float, freezes_mana: bool = false) -> LockCardsEffect:
 	var effect := LockCardsEffect.new()
 	effect.duration = duration
+	effect.freezes_mana = freezes_mana
 	return effect
 
 

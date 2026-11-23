@@ -9,6 +9,9 @@ const RESULTS_DURATION: float = 10.0
 const NEXT_ROUND_DELAY: float = 1.5
 const BOT_DRAFT_DELAY: float = 1.2
 
+## Style des bots : malins par défaut (le simulateur peut repasser aux bots simples).
+var bot_style: BotPlayer.Style = BotPlayer.Style.SMART
+
 var _session: MatchSession
 var _submit: Callable
 
@@ -166,7 +169,7 @@ func _on_round_started(_round_index: int) -> void:
 	_bot_traders.clear()
 	for player: PlayerState in _session.players:
 		if player.is_bot:
-			_bots.append(BotPlayer.new(player, _session.current_round, _submit))
+			_bots.append(BotPlayer.new(player, _session.current_round, _submit, bot_style))
 			_bot_traders.append(BotTrader.new(player, _session.current_round, _submit))
 
 

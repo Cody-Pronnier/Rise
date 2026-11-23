@@ -21,7 +21,7 @@ const ENABLED: Dictionary[StringName, bool] = {
 	&"archer": true,
 	&"rogue": true,
 	&"druid": false,
-	&"warrior": false,
+	&"warrior": true,
 	&"necromancer": false,
 	&"merchant": false,
 }

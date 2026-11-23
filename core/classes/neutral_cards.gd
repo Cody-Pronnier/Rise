@@ -25,7 +25,7 @@ static func _build_all() -> Array[CardData]:
 			"Inflige 20 dégâts à la cible et à tout son camp.",
 			UNIT, [EffectFactory.side_damage(20.0)], false).with_cost(4),
 		CardFactory.card(&"neutral_hourglass", "Sablier",
-			"Réduit la vitesse d'attaque de la cible de 30 % pendant 6 s.",
+			"Réduit la vitesse d'attaque de la cible de 40 % pendant 6 s.",
 			UNIT, [EffectFactory.status(StatusLibrary.slow())], false).with_cost(2),
 		CardFactory.card(&"neutral_strength_elixir", "Élixir de force",
 			"+30 % de dégâts pendant 10 s.",

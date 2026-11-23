@@ -24,6 +24,9 @@ var kills: int = 0
 var total_monsters: int = 0
 var passive: ClassPassive
 
+## Compagnons que les monstres ne frappent jamais.
+const UNTARGETED_BY_MONSTERS: Array[StringName] = [&"double"]
+
 var _pending_monsters: Array[UnitData] = []
 var _respawn_remaining: float = 0.0
 var _breather_remaining: float = 0.0
@@ -263,10 +266,11 @@ func _resolve_monster_side_attack(attacker: CombatUnit) -> void:
 		attacker.perform_attack(target)
 
 
-## Les compagnons servent de bouclier au personnage.
+## Les compagnons servent de bouclier au personnage, sauf ceux qui restent en retrait
+## (le double du Mage : seuls les autres joueurs peuvent l'abattre).
 func _pick_monster_target() -> CombatUnit:
 	for companion: CombatUnit in companions:
-		if companion.is_alive():
+		if companion.is_alive() and not UNTARGETED_BY_MONSTERS.has(companion.data.tag):
 			return companion
 	return character if character.is_alive() else null
 

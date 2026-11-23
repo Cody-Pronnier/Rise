@@ -70,10 +70,24 @@ static func trip() -> StatusData:
 	return status
 
 
+## Après un croc-en-jambe : l'unité au sol subit plus de dégâts.
+static func off_balance() -> StatusData:
+	var status: StatusData = _make(&"off_balance", "Au sol", 4.0, DEBUFF)
+	status.damage_taken_mult = 1.25
+	return status
+
+
+## Invisibilité du Voleur : il frappe plus vite depuis l'ombre.
+static func shadow_strike() -> StatusData:
+	var status: StatusData = _make(&"shadow_strike", "Frappe de l'ombre", 6.0, BUFF)
+	status.attack_speed_mult = 1.3
+	return status
+
+
 ## L'unité subit plus de dégâts (de toutes les sources sauf les dégâts imblocables).
 static func hunter_mark() -> StatusData:
-	var status: StatusData = _make(&"hunter_mark", "Marque du chasseur", 8.0, DEBUFF)
-	status.damage_taken_mult = 1.3
+	var status: StatusData = _make(&"hunter_mark", "Marque du chasseur", 10.0, DEBUFF)
+	status.damage_taken_mult = 1.4
 	return status
 
 
@@ -84,9 +98,16 @@ static func meteor(damage: float, delay: float) -> StatusData:
 	return status
 
 
+## Durée de vie du double du Mage : il disparaît à la fin.
+static func mirror_image(duration: float) -> StatusData:
+	var status: StatusData = _make(&"mirror_image", "Dédoublement", duration, BUFF)
+	status.ends_unit_on_expire = true
+	return status
+
+
 static func slow() -> StatusData:
 	var status: StatusData = _make(&"slow", "Ralenti", 6.0, DEBUFF)
-	status.attack_speed_mult = 0.7
+	status.attack_speed_mult = 0.6
 	return status
 
 
@@ -110,9 +131,10 @@ static func yggdrasil() -> StatusData:
 	return status
 
 
-static func decoy() -> StatusData:
+static func decoy(riposte_damage: float = 0.0) -> StatusData:
 	var status: StatusData = _make(&"decoy", "Leurre", 15.0, BUFF)
 	status.flags = StatusData.Flag.DODGE_NEXT
+	status.riposte_damage = riposte_damage
 	return status
 
 
@@ -137,6 +159,30 @@ static func stone_skin() -> StatusData:
 static func strength() -> StatusData:
 	var status: StatusData = _make(&"strength", "Force", 10.0, BUFF)
 	status.damage_mult = 1.3
+	return status
+
+
+## Œil du faucon (ultime de l'Archer) : toutes les attaques sont critiques, et plus rapides.
+static func hawk_eye() -> StatusData:
+	var status: StatusData = _make(&"hawk_eye", "Œil du faucon", 12.0, BUFF)
+	status.crit_bonus = 1.0
+	status.attack_speed_mult = 1.3
+	return status
+
+
+## Danse des lames (ultime du Voleur) : attaques deux fois plus rapides, chaque coup fait saigner.
+## Le saignement par coup est léger : il s'empile vite à cette cadence.
+static func blade_dance() -> StatusData:
+	var status: StatusData = _make(&"blade_dance", "Danse des lames", 8.0, BUFF)
+	status.attack_speed_mult = 1.6
+	status.on_hit_status = bleed(1.0, 3.0)
+	return status
+
+
+## Duel pour l'honneur (ultime du Guerrier) : il frappe beaucoup plus fort pendant le duel.
+static func honor_duel(duration: float) -> StatusData:
+	var status: StatusData = _make(&"honor_duel", "Duel", duration, BUFF)
+	status.damage_mult = 1.6
 	return status
 
 
@@ -167,8 +213,8 @@ static func crit_boost() -> StatusData:
 
 
 static func poisoned_weapon() -> StatusData:
-	var status: StatusData = _make(&"poisoned_weapon", "Arme empoisonnée", 10.0, BUFF)
-	status.on_hit_status = poison()
+	var status: StatusData = _make(&"poisoned_weapon", "Arme empoisonnée", 6.0, BUFF)
+	status.on_hit_status = poison(1.5, 4.0)
 	return status
 
 

@@ -29,6 +29,8 @@ var hand: Array[CardData] = []
 var mana: float = CombatConfig.MANA_START
 
 var _card_lock_remaining: float = 0.0
+## Secondes pendant lesquelles le mana ne se recharge plus (ex : Chaîne du Mage).
+var _mana_freeze_remaining: float = 0.0
 
 
 ## deck_cards : le deck complet (16 cartes). Il est mélangé avec GameRandom : identique sur toutes les machines.
@@ -70,6 +72,7 @@ func add_card_to_deck(card: CardData) -> void:
 func deal_deck() -> void:
 	hand = deck.duplicate()
 	_clear_card_lock()
+	_mana_freeze_remaining = 0.0
 	_set_mana(CombatConfig.MANA_START)
 	hand_changed.emit()
 
@@ -115,14 +118,35 @@ func spend_mana(amount: int) -> void:
 	_set_mana(mana - amount)
 
 
+## Mana reçu d'un effet (ex : Détrousser), sans dépasser le maximum.
+func gain_mana(amount: float) -> void:
+	_set_mana(mana + amount)
+
+
 func add_points(amount: int) -> void:
 	points += amount
 	points_changed.emit(points)
 
 
 func tick(delta: float) -> void:
-	_set_mana(mana + CombatConfig.MANA_PER_SECOND * delta)
+	_tick_mana(delta)
 	_tick_card_lock(delta)
+
+
+func is_mana_frozen() -> bool:
+	return _mana_freeze_remaining > 0.0
+
+
+## Le mana ne se recharge plus pendant `duration` secondes (sans perdre ce qui est déjà là).
+func freeze_mana(duration: float) -> void:
+	_mana_freeze_remaining = maxf(_mana_freeze_remaining, duration)
+
+
+func _tick_mana(delta: float) -> void:
+	if is_mana_frozen():
+		_mana_freeze_remaining = maxf(_mana_freeze_remaining - delta, 0.0)
+		return
+	_set_mana(mana + CombatConfig.MANA_PER_SECOND * delta)
 
 
 func _set_mana(value: float) -> void:

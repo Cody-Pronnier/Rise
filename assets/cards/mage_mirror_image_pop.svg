@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 356 260" width="356" height="260">
+<defs>
+<linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#8f9ab2"/></linearGradient>
+<linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe9a0"/><stop offset="1" stop-color="#d08f1f"/></linearGradient>
+<linearGradient id="wood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b07a48"/><stop offset="1" stop-color="#5e3b1f"/></linearGradient>
+<radialGradient id="fire" cx="0.45" cy="0.6" r="0.6"><stop offset="0" stop-color="#fff2a8"/><stop offset="0.5" stop-color="#ff9a2e"/><stop offset="1" stop-color="#e2401c"/></radialGradient>
+<radialGradient id="blood" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#ff7a7a"/><stop offset="1" stop-color="#a1121e"/></radialGradient>
+<radialGradient id="poison" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#d9ff8a"/><stop offset="1" stop-color="#3f9a1c"/></radialGradient>
+<radialGradient id="ice" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#7cc8ff"/></radialGradient>
+<radialGradient id="leaf" cx="0.4" cy="0.3" r="0.8"><stop offset="0" stop-color="#b8f56a"/><stop offset="1" stop-color="#3c8a24"/></radialGradient>
+<radialGradient id="stone" cx="0.4" cy="0.3" r="0.8"><stop offset="0" stop-color="#d4d2cc"/><stop offset="1" stop-color="#6e6a62"/></radialGradient>
+<radialGradient id="holy" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff8c8" stop-opacity="0.95"/><stop offset="1" stop-color="#fff2a0" stop-opacity="0"/></radialGradient>
+<radialGradient id="soul" cx="0.45" cy="0.45" r="0.6"><stop offset="0" stop-color="#e8fff0"/><stop offset="0.5" stop-color="#7dffb0"/><stop offset="1" stop-color="#1f9a5a"/></radialGradient>
+<radialGradient id="meat" cx="0.4" cy="0.35" r="0.75"><stop offset="0" stop-color="#b8d49a"/><stop offset="0.6" stop-color="#7a9a62"/><stop offset="1" stop-color="#3e5634"/></radialGradient>
+<linearGradient id="bone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbf8ee"/><stop offset="1" stop-color="#c9c2ad"/></linearGradient>
+<radialGradient id="bag" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#d9aa72"/><stop offset="1" stop-color="#7a5228"/></radialGradient>
+<linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0.6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.55"/></linearGradient>
+</defs>
+<g transform="translate(28 120) translate(150 112) scale(1.6) translate(-150 -112)">
+<g stroke="#1b1420" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round">
+<g transform="translate(112 66) rotate(0) scale(1.1)"><g opacity="1.0">
+<path d="M-22 34 Q-24 -2 0 -6 Q24 -2 22 34 Z" fill="#3249b8"/>
+<circle cx="0" cy="-16" r="11" fill="#e8c4a0"/>
+<path d="M-16 -22 L0 -58 L16 -22 Z" fill="#3249b8"/>
+<path d="M-18 -22 L18 -22" stroke-width="5"/>
+<circle cx="4" cy="-46" r="3" fill="#ffe066" stroke-width="1.5"/>
+</g></g><g transform="translate(190 66) rotate(0) scale(1.1)"><g opacity="0.6">
+<path d="M-22 34 Q-24 -2 0 -6 Q24 -2 22 34 Z" fill="#8ab8ff"/>
+<circle cx="0" cy="-16" r="11" fill="#e8c4a0"/>
+<path d="M-16 -22 L0 -58 L16 -22 Z" fill="#8ab8ff"/>
+<path d="M-18 -22 L18 -22" stroke-width="5"/>
+<circle cx="4" cy="-46" r="3" fill="#ffe066" stroke-width="1.5"/>
+</g></g><path d="M150 14 L150 112" stroke="#e8f4ff" stroke-width="4" stroke-dasharray="8 7" opacity="0.8"/><path d="M 150 30 Q 150 40 160 40 Q 150 40 150 50 Q 150 40 140 40 Q 150 40 150 30 Z" fill="#e8f4ff" stroke-width="2"/><path d="M 226 15 Q 226 22 233 22 Q 226 22 226 29 Q 226 22 219 22 Q 226 22 226 15 Z" fill="#e8f4ff" stroke-width="2"/><path d="M 78 20 Q 78 26 84 26 Q 78 26 78 32 Q 78 26 72 26 Q 78 26 78 20 Z" fill="#e8f4ff" stroke-width="2"/>
+</g></g>
+</svg>

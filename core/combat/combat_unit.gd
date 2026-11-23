@@ -65,6 +65,9 @@ func tick(delta: float) -> void:
 	if not is_alive():
 		return
 	statuses.tick(delta)
+	if statuses.take_lifetime_ended():
+		vanish()
+		return
 	_apply_expired_damage()
 	_tick_periodic_damage(delta)
 	_tick_periodic_heal(delta)
@@ -114,6 +117,15 @@ func purge(categories: Array[int]) -> void:
 	statuses.remove_categories(categories)
 
 
+## Disparition sans dégâts (fin d'une invocation temporaire) : l'unité est retirée comme si elle mourait.
+func vanish() -> void:
+	if not is_alive():
+		return
+	health = 0.0
+	health_changed.emit(health, get_max_health())
+	died.emit()
+
+
 func revive() -> void:
 	statuses.clear()
 	health = get_max_health()
@@ -128,9 +140,12 @@ func _try_avoid(info: DamageInfo) -> bool:
 	if not info.undodgeable and statuses.has_flag(StatusData.Flag.DODGE_ALL):
 		attack_avoided.emit("Esquive")
 		return true
-	if not info.undodgeable and statuses.consume_flag(StatusData.Flag.DODGE_NEXT):
-		attack_avoided.emit("Leurre")
-		return true
+	if not info.undodgeable:
+		var decoy: StatusData = statuses.take_flag(StatusData.Flag.DODGE_NEXT)
+		if decoy:
+			attack_avoided.emit("Leurre")
+			_riposte(decoy, info)
+			return true
 	if not info.unblockable and statuses.has_flag(StatusData.Flag.DAMAGE_IMMUNE):
 		attack_avoided.emit("Bloqué")
 		return true
@@ -147,6 +162,12 @@ func _apply_expired_damage() -> void:
 	var amount: float = statuses.take_expired_damage()
 	if amount > 0.0:
 		receive_damage(DamageCalculator.build_spell(amount, false, false))
+
+
+## Un leurre qui riposte frappe l'attaquant (seulement une attaque, pas un sort).
+func _riposte(status: StatusData, info: DamageInfo) -> void:
+	if status.riposte_damage > 0.0 and info.source and info.source.is_alive():
+		info.source.receive_damage(DamageCalculator.build_spell(status.riposte_damage, false, false))
 
 
 func _try_reflect(info: DamageInfo) -> bool:

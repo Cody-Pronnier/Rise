@@ -22,6 +22,8 @@ enum Scope {
 @export var bonus_multiplier: float = 1.0
 ## Dégâts ajoutés par type de dégâts sur la durée présent sur la cible (poison, saignement…).
 @export var bonus_per_damage_over_time: float = 0.0
+## Dégâts ajoutés par pourcent de PV manquant à la cible (ex : Coup fatal).
+@export var bonus_per_missing_health_percent: float = 0.0
 
 
 func apply(context: CardContext) -> void:
@@ -41,6 +43,7 @@ func _apply_to_unit(unit: CombatUnit, context: CardContext) -> void:
 ## Dégâts d'un coup contre cette unité, bonus compris (avant le bonus de rattrapage).
 func amount_against(unit: CombatUnit) -> float:
 	var damage: float = amount + bonus_per_damage_over_time * unit.statuses.damage_over_time_kinds()
+	damage += bonus_per_missing_health_percent * (1.0 - unit.get_health_ratio()) * 100.0
 	if unit.statuses.has_any_status(bonus_if_statuses):
 		damage *= bonus_multiplier
 	return damage

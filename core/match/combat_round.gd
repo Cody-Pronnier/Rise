@@ -60,6 +60,7 @@ func play_card(caster_id: int, card: CardData, target: CardTarget) -> String:
 	if not error.is_empty():
 		return error
 	CardPlayService.resolve(self, caster_id, card, target)
+	DoubleEcho.echo(self, caster_id, card, target)
 	trades.cancel_offers_using_card(caster_id, card)
 	card_played.emit(caster_id, card, target)
 	return ""

@@ -2,11 +2,14 @@ class_name ManaBar
 extends PanelContainer
 ## Jauge de mana du joueur local, en bas à gauche : un cristal avec le mana entier
 ## et une barre segmentée (un segment par point) qui se remplit en continu.
+## Elle pâlit quand le mana est gelé.
 ## Lecture seule : le mana vient de PlayerState.
 
 const SEGMENT_SIZE := Vector2(18, 16)
 const FILL_COLOR := Color(0.3, 0.55, 1.0)
 const FULL_COLOR := Color(0.55, 0.8, 1.0)
+## Mana gelé (Chaîne) : la jauge pâlit tant qu'il ne se recharge plus.
+const FROZEN_TINT := Color(0.6, 0.65, 0.75)
 
 var _player: PlayerState
 var _count_label := Label.new()
@@ -67,5 +70,6 @@ func _build_segments() -> HBoxContainer:
 ## Chaque segment montre sa part du mana : plein, en cours de remplissage ou vide.
 func _refresh() -> void:
 	_count_label.text = "%d" % floori(_player.mana)
+	modulate = FROZEN_TINT if _player.is_mana_frozen() else Color.WHITE
 	for index: int in _segments.size():
 		_segments[index].value = clampf(_player.mana - index, 0.0, 1.0)

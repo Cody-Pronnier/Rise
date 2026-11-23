@@ -36,11 +36,20 @@ static func _get_effects_error(combat_round: CombatRound, caster_id: int, card: 
 static func resolve(combat_round: CombatRound, caster_id: int, card: CardData, target: CardTarget) -> void:
 	combat_round.players[caster_id].spend_mana(card.cost)
 	combat_round.players[caster_id].consume_card(card)
+	_apply_effects(combat_round, caster_id, card, target, 1.0)
+
+
+## Carte rejouée sans coût ni carte consommée, avec une puissance réduite (ex : le double du Mage).
+static func resolve_echo(combat_round: CombatRound, caster_id: int, card: CardData, target: CardTarget, power_factor: float) -> void:
+	_apply_effects(combat_round, caster_id, card, target, power_factor)
+
+
+static func _apply_effects(combat_round: CombatRound, caster_id: int, card: CardData, target: CardTarget, power_factor: float) -> void:
 	if card.target_mode == CardData.TargetMode.ALL_FIELDS:
 		for field_id: int in affected_field_ids(combat_round, caster_id, card):
-			card.resolve(_build_context(combat_round, caster_id, card, CardTarget.for_player(field_id)))
+			card.resolve(_build_context(combat_round, caster_id, card, CardTarget.for_player(field_id), power_factor))
 	else:
-		card.resolve(_build_context(combat_round, caster_id, card, target))
+		card.resolve(_build_context(combat_round, caster_id, card, target, power_factor))
 
 
 ## Terrains touchés par une carte ALL_FIELDS : tous ceux encore en combat, sauf les terrains
@@ -88,7 +97,7 @@ static func _is_valid_unit(field: Field, unit: CombatUnit) -> bool:
 	return unit != null and unit.is_alive() and field.contains(unit)
 
 
-static func _build_context(combat_round: CombatRound, caster_id: int, card: CardData, target: CardTarget) -> CardContext:
+static func _build_context(combat_round: CombatRound, caster_id: int, card: CardData, target: CardTarget, power_factor: float = 1.0) -> CardContext:
 	var field: Field = combat_round.fields[target.player_id]
 	var context := CardContext.new(
 		combat_round.players[caster_id],
@@ -97,7 +106,7 @@ static func _build_context(combat_round: CombatRound, caster_id: int, card: Card
 		_resolve_units(card, target, field),
 		combat_round
 	)
-	context.power = 1.0 + CatchUpBoost.bonus_for(combat_round, caster_id, card, target)
+	context.power = (1.0 + CatchUpBoost.bonus_for(combat_round, caster_id, card, target)) * power_factor
 	return context
 
 
