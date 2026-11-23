@@ -1,6 +1,6 @@
 extends Screen
 ## Page d'accueil : titre animé, icônes des classes, accès au jeu en ligne, à l'entraînement,
-## à ses decks, au codex (classes et cartes) et aux options.
+## à ses decks, au codex (classes et cartes), aux règles du jeu et aux options.
 
 const ICON_SIZE := Vector2(56, 56)
 const ICON_BOB_HEIGHT: float = 8.0
@@ -19,6 +19,7 @@ const STATUS_ERROR_COLOR := Color(1.0, 0.55, 0.5)
 @onready var _training_button: Button = %TrainingButton
 @onready var _decks_button: Button = %DecksButton
 @onready var _codex_button: Button = %CodexButton
+@onready var _how_to_play_button: Button = %HowToPlayButton
 @onready var _options_button: Button = %OptionsButton
 @onready var _quit_button: Button = %QuitButton
 
@@ -38,6 +39,7 @@ func _style_buttons() -> void:
 	UiStyle.style_button(_training_button, false)
 	UiStyle.style_button(_decks_button, false)
 	UiStyle.style_button(_codex_button, false)
+	UiStyle.style_button(_how_to_play_button, false)
 	UiStyle.style_button(_options_button, false)
 	UiStyle.style_button(_quit_button, false)
 
@@ -47,6 +49,7 @@ func _connect_buttons() -> void:
 	_training_button.pressed.connect(_on_training_pressed)
 	_decks_button.pressed.connect(navigation_requested.emit.bind(Screen.Id.DECKS))
 	_codex_button.pressed.connect(_on_codex_pressed)
+	_how_to_play_button.pressed.connect(navigation_requested.emit.bind(Screen.Id.HOW_TO_PLAY))
 	_options_button.pressed.connect(_on_options_pressed)
 	_quit_button.pressed.connect(_on_quit_pressed)
 

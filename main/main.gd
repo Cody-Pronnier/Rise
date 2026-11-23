@@ -12,6 +12,7 @@ const SCREEN_SCENES: Dictionary[Screen.Id, PackedScene] = {
 	Screen.Id.REWARDS: preload("res://ui/screens/rewards/reward_screen.tscn"),
 	Screen.Id.CODEX: preload("res://ui/screens/codex/codex_screen.tscn"),
 	Screen.Id.DECKS: preload("res://ui/screens/decks/decks_screen.tscn"),
+	Screen.Id.HOW_TO_PLAY: preload("res://ui/screens/how_to_play/how_to_play_screen.tscn"),
 }
 
 @onready var _screen_container: Control = %ScreenContainer
